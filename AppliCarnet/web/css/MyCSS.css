@@ -1,0 +1,99 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 19 févr. 2015, 11:40:17
+    Author     : vivi
+*/
+.btn-false{
+   // background:url("images/94.jpg");
+   background-color: gray;
+    background-size: 100% 100%;
+}
+.btn-calendar {
+ /*background:url("images/94.jpg");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;*/
+  //padding-left: 0;
+  // padding-right: 0;
+  border-radius: 0 0 0 0;
+}
+.btn-carre{
+   border-radius: 0 0 0 0;  
+}
+
+
+.row div {
+  padding-left: 0;
+  padding-right: 0;  
+}
+
+html,body{
+    //position: relative;
+    height:100%;
+    background-attachment : fixed;
+ background-image :url(https://unsplash.imgix.net/photo-1414589491349-2acf6131176e?q=75&fm=jpg&s=0fc2f75bf5f668bf513d88a721dbe5c9);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.container{
+    max-width: 1000px;
+    height: 100%;
+    position:relative!important;
+   
+}
+
+.jumbotron-trans {
+    text-align: center;
+    background-color: transparent;
+}
+
+.jumbotron{
+    padding-top: 15px;
+    text-align: center;
+}
+
+footer{
+    height:20px;
+    position: absolute;
+    bottom:10px;
+}
+.text-muted{
+     color: white;
+}
+
+
+.btn-true {
+   opacity: 0.65;
+  color: #000000;
+  background-color: #337ab7;
+  border-color: #2e6da4;
+}
+.btn-true:hover,
+.btn-true:focus,
+.btn-true.focus,
+.btn-true:active,
+.btn-true.active,
+.open > .dropdown-toggle.btn-true {
+  color: #ffffff;
+  background-color: #286090;
+  border-color: #204d74;
+}
+
+.btn-false{
+   // background:url("images/94.jpg");
+   opacity: 0.65;
+  color: #000000;
+  background-color: #cdcdcd;
+  border-color: #a2a2a2;
+}
+.today{
+    background-color: cornflowerblue;
+}
+
+.erreurForm{
+    color: red;
+}
