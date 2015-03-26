@@ -5,25 +5,33 @@
  */
 package controlers;
 
+import DAO.InscriptionDAO;
+import Exception.mailExistant;
+import Exception.pseudoExistant;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.Mois;
+import javax.sql.DataSource;
 
 /**
  *
  * @author vivi
  */
-@WebServlet(name = "htmlCalendar", urlPatterns = {"/htmlCalendar"})
-public class htmlCalendar extends HttpServlet {
+@WebServlet(name = "InscriptionValidation", urlPatterns = {"/InscriptionValidation"})
+public class InscriptionValidation extends HttpServlet {
 
+    
+     @Resource(name = "jdbc/BDCarnetDeSport")
+    private DataSource dataSource;
+     
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -35,15 +43,29 @@ public class htmlCalendar extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        GregorianCalendar calendar =new GregorianCalendar();
-        calendar.setTime(new Date());
-        Mois moisCourant = new Mois(calendar);
-        request.setAttribute("mois", moisCourant);
-        request.setAttribute("today",calendar.get(Calendar.DATE));
-        getServletContext().getRequestDispatcher("/WEB-INF/calendar.jsp").forward(request, response);
-            
-
+       String pseudo = request.getParameter("pseudo");
+       String password = request.getParameter("password");
+       String email = request.getParameter("email");
+       String nom = request.getParameter("nom");
+       String prenom = request.getParameter("prenom");
+       
+       InscriptionDAO inscriptionDAO = new InscriptionDAO(dataSource);
+       try{
+           if(inscriptionDAO.mailExiste(email)){
+               throw new mailExistant(email);
+           }
+           if(inscriptionDAO.pseudoExiste(pseudo)){
+               throw new pseudoExistant(pseudo);
+           }
+           
+         inscriptionDAO.addNewUtilisateur(pseudo, nom, prenom, email, password);
+        request.setAttribute("pseudo", pseudo);
+        request.setAttribute("prenom", prenom);
+        request.getRequestDispatcher("WEB-INF/ConfirmationInscription.jsp").forward(request, response);
+        }catch (SQLException|mailExistant|pseudoExistant ex) {
+            request.setAttribute("erreurMessage", ex.getMessage());
+            request.getRequestDispatcher("WEB-INF/erreurInscription.jsp").forward(request, response);
+        }   
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

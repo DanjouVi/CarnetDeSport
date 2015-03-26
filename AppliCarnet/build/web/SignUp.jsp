@@ -27,7 +27,7 @@
                     </div>
                     <div>
                         <ul class="nav navbar-nav">
-                            <li class="active"><a href="index.html"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+                            <li><a href="index.jsp"><span class="glyphicon glyphicon-home"></span> Home</a></li>
                             <li><a href="htmlCalendar"><span class="glyphicon glyphicon-calendar"></span> Calendrier</a></li>
                             <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-globe"></span> Parcours<span class="caret"></span></a>
                                 <ul class="dropdown-menu">
@@ -43,8 +43,8 @@
                             </li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
-                            <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-                            <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                            <li class="active"><a href="SignUp.jsp"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                            <li><a href="Login.jsp"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
                         </ul>
                     </div>
                 </div>
@@ -56,41 +56,41 @@
                         <h3>Inscription</h3>
                         <HR size=3px>
                         <br/>
-                        <form class="form-horizontal">
+                        <form id ="my-form" class="form-horizontal" method="post" action="InscriptionValidation"  onsubmit="return VerifInscription()">
                             <div class="form-group">
                                 <label control-label class="col-md-5 col-lg-offset-1"> Pseudo : </label>
-                                <input type="text" id ="pseudo" class="col-md-7 col-lg-offset-1" required> </input> <span id="speudoUnique" class="glyphicon glyphicon-remove erreurForm" style="display: none"></span>
+                                <input type="text" name="pseudo" class="col-md-7 col-lg-offset-1" value="Silf" required> </input> <span id="speudoUnique" class="glyphicon glyphicon-remove erreurForm" style="display: none"></span>
                             </div>
                             <div class="form-group">
                                 <label control-label class="col-md-5 col-lg-offset-1"> Nom : </label>
-                                <input type="text" id ="nom" class="col-md-7 col-lg-offset-1" required> </input>
+                                <input type="text" name="nom" class="col-md-7 col-lg-offset-1" value="Danjou" required> </input>
                             </div>
                             <div class="form-group">
                                 <label control-label class="col-md-5 col-lg-offset-1" > Prenom : </label>
-                                <input type="text" id="prenom"  class="col-md-7 col-lg-offset-1" required> </input>
+                                <input type="text" name="prenom"  class="col-md-7 col-lg-offset-1" value="Vianney" required> </input>
                             </div>
                             <div class="form-group">
                                 <label control-label class="col-md-5 col-lg-offset-1"> Mail : </label>
-                                <input type="email" class="col-md-7 col-lg-offset-1" id="email" required> </input>
+                                <input type="email" name="email" class="col-md-7 col-lg-offset-1" id="email" required value="monMail@mail"> </input>
                             </div>
                             <div class="form-group">
                                 <label control-label class="col-md-5 col-lg-offset-1"> Mail : (Confimation) </label>
-                                <input type="email" class="col-md-7 col-lg-offset-1"  id="emailVerif" required> </input> <span id="emailDiff" class="glyphicon glyphicon-remove erreurForm" style="display: none"></span>
+                                <input type="email" class="col-md-7 col-lg-offset-1 email"  id="emailVerif" required value="monMail@mail"> </input> <span id="emailDiff" class="glyphicon glyphicon-remove erreurForm" style="display: none"></span>
                             </div>
                             <div class="form-group">
                                 <label control-label class="col-md-5 col-lg-offset-1"> Password : </label>
-                                <input type="password" id="password" class="col-md-7 col-lg-offset-1" required> </input>
+                                <input type="password" name="password" id="password" class="col-md-7 col-lg-offset-1" required value="pass"> </input>
                             </div>
                             <div class="form-group">
                                 <label control-label class="col-md-5 col-lg-offset-1"> Password : (Confirmation) </label>
-                                <input type="password" id="passwordVerif" class="col-md-7 col-lg-offset-1" required> </input> <span id="passwordDiff" class="glyphicon glyphicon-remove erreurForm" style="display: none"></span>
+                                <input type="password" id="passwordVerif" class="col-md-7 col-lg-offset-1" required value="pass"> </input> <span id="passwordDiff" class="glyphicon glyphicon-remove erreurForm" style="display: none"></span>
                             </div>
                             <div class='row'>
                                 <div class='col-xs-7 col-xs-offset-1'>
-                                    <button type="reset" class="btn btn-danger btn-block">Effacer le contenu&nbsp;<span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
+                                    <button type="reset" class="btn btn-danger btn-block">Effacer le contenu&nbsp;<span class="glyphicon glyphicon-trash"></span></button>
                                 </div>
                                 <div class='col-xs-7 col-xs-offset-1'>
-                                    <button id="valInscription" class="btn btn-primary btn-block">Valider les informations&nbsp;<span class="glyphicon glyphicon-ok" ></span></button>
+                                    <button id="valInscription" class="btn btn-primary btn-block">Valider les informations&nbsp;<span class="glyphicon glyphicon-ok" aria-hidden="false" ></span></button>
                                 </div>
                             </div>
                         </form>

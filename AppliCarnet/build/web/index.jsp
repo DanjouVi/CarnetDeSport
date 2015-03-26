@@ -1,3 +1,11 @@
+<%-- 
+    Document   : index
+    Created on : 25 mars 2015, 18:43:22
+    Author     : vivi
+--%>
+
+<%@page import="model.Utilisateur"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -20,7 +28,7 @@
                     </div>
                     <div>
                         <ul class="nav navbar-nav">
-                            <li class="active"><a href="index.html"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+                            <li class="active"><a href="index.jsp"><span class="glyphicon glyphicon-home"></span> Home</a></li>
                             <li><a href="htmlCalendar"><span class="glyphicon glyphicon-calendar"></span> Calendrier</a></li>
                             <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-globe"></span> Parcours<span class="caret"></span></a>
                                 <ul class="dropdown-menu">
@@ -36,8 +44,13 @@
                             </li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
-                            <li><a href="SignUp.jsp"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-                            <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                            <li><% Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
+                                    if(utilisateur==null){%>
+                                    <a href="SignUp.jsp"><span class="glyphicon glyphicon-user"></span> Sign Up</a>
+                            <%}else{%>
+                                    <a href="SignUp.jsp"><span class="glyphicon glyphicon-user"></span> ${utilisateur.pseudo}</a>
+                                    <%}%></li>
+                            <li><a href="Login.jsp"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
                         </ul>
                     </div>
                 </div>

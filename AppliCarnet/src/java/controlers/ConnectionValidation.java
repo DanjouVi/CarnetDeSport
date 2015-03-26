@@ -5,25 +5,34 @@
  */
 package controlers;
 
+import DAO.ConnectionDAO;
+import DAO.InscriptionDAO;
+import Exception.mailExistant;
+import Exception.pseudoExistant;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
+import java.sql.SQLException;
+import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.Mois;
+import javax.servlet.http.HttpSession;
+import javax.sql.DataSource;
+import model.Utilisateur;
 
 /**
  *
  * @author vivi
  */
-@WebServlet(name = "htmlCalendar", urlPatterns = {"/htmlCalendar"})
-public class htmlCalendar extends HttpServlet {
+@WebServlet(name = "ConnectionValidation", urlPatterns = {"/ConnectionValidation"})
+public class ConnectionValidation extends HttpServlet {
 
+    
+     @Resource(name = "jdbc/BDCarnetDeSport")
+    private DataSource dataSource;
+      
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -35,15 +44,25 @@ public class htmlCalendar extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        GregorianCalendar calendar =new GregorianCalendar();
-        calendar.setTime(new Date());
-        Mois moisCourant = new Mois(calendar);
-        request.setAttribute("mois", moisCourant);
-        request.setAttribute("today",calendar.get(Calendar.DATE));
-        getServletContext().getRequestDispatcher("/WEB-INF/calendar.jsp").forward(request, response);
-            
+       String pseudo = request.getParameter("pseudo");
+       String password = request.getParameter("password");
 
+       
+       ConnectionDAO inscriptionDAO = new ConnectionDAO(dataSource);
+       try{
+           if(inscriptionDAO.identifiactionEstValide(pseudo, password)){
+               Utilisateur utilisateur = new Utilisateur(pseudo, true);
+               HttpSession session = request.getSession(true);
+               session.setAttribute("utilisateur",utilisateur);
+               request.getRequestDispatcher("index.jsp").forward(request, response);
+           }else{
+               request.setAttribute("erreurConnection", "IdentificationErreur");
+               request.getRequestDispatcher("Login.jsp").forward(request, response);
+           }
+        }catch (SQLException ex) {
+            request.setAttribute("erreurMessage", ex.getMessage());
+            request.getRequestDispatcher("WEB-INF/erreurInscription.jsp").forward(request, response);
+        }   
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
