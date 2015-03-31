@@ -20,43 +20,15 @@
     </head>
     <body>
         <div class="container">
-            <nav class="navbar navbar-inverse">
-                <div class="container-fluid">
-                    <div class="navbar-header">
-                        <a class="navbar-brand" id="CarnetDeSport" href="#">Carnet de sport</a>
-                    </div>
-                    <div>
-                        <ul class="nav navbar-nav">
-                            <li class="active"><a href="index.jsp"><span class="glyphicon glyphicon-home"></span> Home</a></li>
-                            <li><a href="htmlCalendar"><span class="glyphicon glyphicon-calendar"></span> Calendrier</a></li>
-                            <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-globe"></span> Parcours<span class="caret"></span></a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">Afficher  <span class="glyphicon glyphicon-eye-open"></span></a></li>
-                                    <li><a href="#">Nouveau  <span class="glyphicon glyphicon-plus"></span></a></li>
-                                </ul>
-                            </li>
-                            <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-stats"></span> Objectifs<span class="caret"></span></a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">Afficher  <span class="glyphicon glyphicon-eye-open"></span></a></li>
-                                    <li><a href="#">Nouveau  <span class="glyphicon glyphicon-plus"></span></a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                        <ul class="nav navbar-nav navbar-right">
-                            <li><a href="SignUp.jsp"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-                            <li class="active"><a href="Login.jsp"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-
+            <%session.setAttribute("pageCourant", "login");%>
+            <jsp:include page="header.jsp"/>
             <div class="row">
                 <div class="col-md-8 col-md-offset-4">
                     <div class="jumbotron">
                         <h3>Inscription</h3>
                         <HR size=3px>
                         <br/>
-                        <form id ="my-form" class="form-horizontal" method="get" action="ConnectionValidation"  onsubmit="return VerifConnection()">
+                        <form id ="my-form" class="form-horizontal" method="post" action="ConnectionValidation"  onsubmit="return VerifConnection()">
                             <div class="form-group">
                                 <label control-label class="col-md-5 col-lg-offset-1"> Pseudo : </label>
                                 <input type="text" name="pseudo" class="col-md-7 col-lg-offset-1" value="Silf" required> </input> <span id="speudoUnique" class="glyphicon glyphicon-remove erreurForm" style="display: none"></span>
@@ -65,12 +37,12 @@
                                 <label control-label class="col-md-5 col-lg-offset-1"> Password : </label>
                                 <input type="password" name="password" class="col-md-7 col-lg-offset-1" value="pass" required> </input>
                             </div>
-                            
-                            <%if(request.getAttribute("erreurConnection")!=null){%>
+
+                            <%if (request.getAttribute("erreurConnection") != null) {%>
                             <p class='erreurForm'>Pseudonime ou password incorrect</p>
                             <%}%>
                             <div class='row'>
-                            <div class='col-xs-7 col-xs-offset-5'>
+                                <div class='col-xs-7 col-xs-offset-5'>
                                     <button id="valConnection" class="btn btn-primary btn-block">Connection&nbsp;<span class="glyphicon glyphicon-log-in" aria-hidden="false" ></span></button>
                                 </div>
                             </div>
@@ -79,7 +51,8 @@
                 </div> 
             </div>
         </div>
+        <jsp:include page="footer.html"/>                     
     </body>
-    
-<script src="js/jsConnection.js" type="text/javascript"></script>
+
+    <script src="js/jsConnection.js" type="text/javascript"></script>
 </html>

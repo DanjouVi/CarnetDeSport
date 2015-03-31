@@ -23,40 +23,14 @@
     </head>
     <body>
       <div class="container">
-            <nav class="navbar navbar-inverse">
-                <div class="container-fluid">
-                    <div class="navbar-header">
-                        <a class="navbar-brand" href="#">Carnet de sport</a>
-                    </div>
-                    <div>
-                        <ul class="nav navbar-nav">
-                            <li><a href="index.jsp"><span class="glyphicon glyphicon-home"></span> Home</a></li>
-                            <li class="active"><a href="htmlCalendar"><span class="glyphicon glyphicon-calendar"></span> Calendrier</a></li>
-                            <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-globe"></span> Parcours<span class="caret"></span></a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">Afficher  <span class="glyphicon glyphicon-eye-open"></span></a></li>
-                                    <li><a href="#">Nouveau  <span class="glyphicon glyphicon-plus"></span></a></li>
-                                </ul>
-                            </li>
-                            <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-stats"></span> Objectifs<span class="caret"></span></a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">Afficher  <span class="glyphicon glyphicon-eye-open"></span></a></li>
-                                    <li><a href="#">Nouveau  <span class="glyphicon glyphicon-plus"></span></a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                        <ul class="nav navbar-nav navbar-right">
-                            <li><a href="SignUp.jsp"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-                            <li><a href="Login.jsp"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
+          <%session.setAttribute("pageCourant","calendar");%>
+            <jsp:include page="/header.jsp"/>
              <div class="row">
                 <div class="jumbotron jumbotron-trans">
                     <p class="lead">Le <strong>Calendrier</strong> résume toutes vos séances enregistrées. Cliquer sur un jour pour modifier ou ajouter une séance.</p>
                 </div>    
             </div>
+             <h2> Vos séances du mois : </h2>
             <div id="Calendar"> 
                 <div class="row">
                     <div class="col-sm-2 col-sm-offset-1">
@@ -140,7 +114,9 @@
                         }
                     %>    
             </div>
-       
+            <br/>
+            <jsp:include page="/footer.html"/>
         </div>
+        
     </body>
 </html>

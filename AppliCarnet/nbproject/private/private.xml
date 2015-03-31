@@ -3,21 +3,17 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/vivi/CarnetDeSport/AppliCarnet/src/java/DAO/ConnectionDAO.java</file>
-            <file>file:/home/vivi/CarnetDeSport/AppliCarnet/src/java/controlers/InscriptionValidation.java</file>
+            <file>file:/home/vivi/CarnetDeSport/AppliCarnet/web/css/MyCSS.css</file>
             <file>file:/home/vivi/CarnetDeSport/AppliCarnet/web/Login.jsp</file>
+            <file>file:/home/vivi/CarnetDeSport/AppliCarnet/web/header.jsp</file>
+            <file>file:/home/vivi/CarnetDeSport/AppliCarnet/web/index.jsp</file>
             <file>file:/home/vivi/CarnetDeSport/AppliCarnet/web/WEB-INF/ConfirmationInscription.jsp</file>
-            <file>file:/home/vivi/CarnetDeSport/AppliCarnet/web/js/jsIncrpition.js</file>
-            <file>file:/home/vivi/CarnetDeSport/AppliCarnet/src/java/model/Utilisateur.java</file>
+            <file>file:/home/vivi/CarnetDeSport/AppliCarnet/web/footer.html</file>
+            <file>file:/home/vivi/CarnetDeSport/AppliCarnet/web/WEB-INF/erreurInscription.jsp</file>
+            <file>file:/home/vivi/CarnetDeSport/AppliCarnet/src/java/controlers/LogOut.java</file>
             <file>file:/home/vivi/CarnetDeSport/AppliCarnet/web/WEB-INF/calendar.jsp</file>
             <file>file:/home/vivi/CarnetDeSport/AppliCarnet/web/SignUp.jsp</file>
             <file>file:/home/vivi/CarnetDeSport/AppliCarnet/src/java/controlers/ConnectionValidation.java</file>
-            <file>file:/home/vivi/CarnetDeSport/AppliCarnet/src/java/Exception/mailExistant.java</file>
-            <file>file:/home/vivi/CarnetDeSport/AppliCarnet/web/js/jsConnection.js</file>
-            <file>file:/home/vivi/CarnetDeSport/AppliCarnet/web/index.jsp</file>
-            <file>file:/home/vivi/CarnetDeSport/AppliCarnet/src/java/DAO/InscriptionDAO.java</file>
-            <file>file:/home/vivi/CarnetDeSport/AppliCarnet/src/java/Exception/pseudoExistant.java</file>
-            <file>file:/home/vivi/CarnetDeSport/AppliCarnet/web/WEB-INF/erreurInscription.jsp</file>
         </group>
     </open-files>
 </project-private>
