@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.sql.DataSource;
+import model.Utilisateur;
 
 /**
  *
@@ -21,15 +22,19 @@ public class ConnectionDAO extends AbstractDataSourceDAO{
         super(dataSource);
     }
     
-    public boolean identifiactionEstValide(String pseudo, String password) throws SQLException{
+    public Utilisateur identifiactionEstValide(String pseudo, String password) throws SQLException{
          Connection conn = null;
+         Utilisateur utilisateur =null;
         try{
             conn = dataSource.getConnection();
             PreparedStatement prepStmt = conn.prepareStatement("SELECT * FROM lesUtilisateurs where pseudo = ? and password =?");
             prepStmt.setString(1, pseudo);
             prepStmt.setString(2, password);
             ResultSet rs = prepStmt.executeQuery();
-            return rs.next();
+            if (rs.next()){
+                utilisateur = new Utilisateur(rs.getString("pseudo"),true,rs.getString("nom"),rs.getString("prenom"),rs.getString("adresseMail"));
+            }
+            return utilisateur;
         }finally{
             closeConnection(conn);
         }

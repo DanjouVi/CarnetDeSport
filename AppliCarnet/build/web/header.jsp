@@ -15,6 +15,8 @@
                             <li<%if(pageCourant.equals("index")){%> class="active"<%}%>><a href="index.jsp"><span class="glyphicon glyphicon-home"></span> Home</a></li>
                             <%if(utilisateur!=null){%>
                                 <li<%if(pageCourant.equals("calendar")){%> class="active"<%}%>><a href="htmlCalendar"><span class="glyphicon glyphicon-calendar"></span> Calendrier</a></li>
+                                <li<%if(pageCourant.equals("sports")){%> class="active"<%}%>><a href="Sports">Sports</a></li>
+                                
                                 <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-globe"></span> Parcours<span class="caret"></span></a>
                                     <ul class="dropdown-menu">
                                         <li><a href="#">Afficher  <span class="glyphicon glyphicon-eye-open"></span></a></li>
@@ -34,7 +36,7 @@
                                 <li <%if(pageCourant.equals("signUp")){%> class="active"<%}%>><a href="SignUp.jsp"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>  
                                 <li<%if(pageCourant.equals("login")){%> class="active"<%}%>><a href="Login.jsp"><span class="glyphicon glyphicon-log-in"></span> Log in</a></li>       
                             <%}else{%>
-                                <li <%if(pageCourant.equals("signUp")){%> class="active"<%}%>><a href="SignUp.jsp"><span class="glyphicon glyphicon-user"></span> ${utilisateur.pseudo}</a></li>
+                                <li <%if(pageCourant.equals("signUp")){%> class="active"<%}%>><a href="CompteUser.jsp"><span class="glyphicon glyphicon-user"></span> ${utilisateur.pseudo}</a></li>
                                 <li><a href="LogOut"><span class="glyphicon glyphicon-log-out"></span> Log out</a></li>
                             <%}%>
                             

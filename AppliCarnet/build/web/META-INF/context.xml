@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Context antiJARLocking="true" path="/CarnetDeSport">
     <Resource auth="Container" 
-            driverClassName="com.mysql.jdbc.Driver" 
-            maxActive="10"
-            maxIdle="3" 
-            maxWait="10000" 
-            name="jdbc/BDCarnetDeSport" 
-            password="Carnet3810" 
-            type="javax.sql.DataSource" 
-            url="jdbc:mysql://localhost:3306/CarnetDeSport"
-            username="CarnetDeSportBD"/>
+              driverClassName="com.mysql.jdbc.Driver" 
+              maxActive="10"
+              maxIdle="3" 
+              maxWait="10000" 
+              name="jdbc/BDCarnetDeSport" 
+              password="Carnet3810" 
+              type="javax.sql.DataSource" 
+              url="jdbc:mysql://localhost:3306/CarnetDeSport"
+              username="CarnetDeSportBD"/>
+    <context-param> 
+        <description>Location to store uploaded file</description> 
+        <param-name>file-upload</param-name> 
+        <param-value>
+            /home/vivi/Serveur/apache-tomcat-7.0.59/webapps/data
+        </param-value> 
+    </context-param>
     
 </Context>

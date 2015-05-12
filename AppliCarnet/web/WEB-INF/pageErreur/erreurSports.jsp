@@ -20,7 +20,7 @@
     </head>
     <body>
         <div class="container">
-            <%session.setAttribute("pageCourant","signUp");%>
+            <%session.setAttribute("pageCourant","sports");%>
             <jsp:include page="/header.jsp"/>
 
             <div class="row">
@@ -33,7 +33,7 @@
                         <spacer type=vertical size=30>
                         <div class="row">
                             <div class="col-md-8 col-md-offset-4">
-                                <a href="SignUp.jsp" class="btn btn-block btn-default ">Retour a l'inscrition</a>
+                                <a href="index.jsp" class="btn btn-block btn-default ">Retour a l'accueil</a>
                             </div>
                         </div>
                     </div>
@@ -42,6 +42,5 @@
         </div>
         <jsp:include page="/footer.html"/>
     </body>
-    
-<script src="js/jsIncrpition.js" type="text/javascript"></script>
+ 
 </html>

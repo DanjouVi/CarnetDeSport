@@ -18,6 +18,7 @@ and open the template in the editor.
   background-size: 100% 100%;*/
   //padding-left: 0;
   // padding-right: 0;
+  background-color:green;
   border-radius: 0 0 0 0;
 }
 .btn-carre{
@@ -61,17 +62,25 @@ html,body{
 h2{
   text-align: center; 
 }
+h4{
+   text-align: left; 
+}
 .text-muted{
      color: white;
+}
+hr{
+    margin-top: 0px;
+    margin-bottom: 10px;
 }
 
 
 .btn-true {
-   opacity: 0.65;
+  opacity: 0.65;
   color: #000000;
   background-color: #337ab7;
   border-color: #2e6da4;
 }
+
 .btn-true:hover,
 .btn-true:focus,
 .btn-true.focus,
@@ -96,4 +105,14 @@ h2{
 
 .erreurForm{
     color: red;
+}
+
+.panel-default{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+
+.table > tbody > tr > td {
+     vertical-align: middle;
 }

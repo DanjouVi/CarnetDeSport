@@ -27,21 +27,25 @@ public class Mois {
     private int annee;
 
     public enum saison {
-
         ete,
         automne,
         hiver,
         printemp;
     }
     private int numMois;
-
+    private String[] nomMois = { "Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet",
+        "Août", "Septembre", "Octobre", "Novembre", "Décembre" };
+     
     public int getAnnee() {
         return annee;
     }
-
+    public String getNomMois(){
+        return nomMois[numMois-1];
+    }
     public int getNumMois() {
         return numMois;
     }
+    
     private Semaine[] semaines = new Semaine[6];
 
     public int getJour(int sem,int jour) {

@@ -3,17 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/vivi/CarnetDeSport/AppliCarnet/web/css/MyCSS.css</file>
-            <file>file:/home/vivi/CarnetDeSport/AppliCarnet/web/Login.jsp</file>
-            <file>file:/home/vivi/CarnetDeSport/AppliCarnet/web/header.jsp</file>
-            <file>file:/home/vivi/CarnetDeSport/AppliCarnet/web/index.jsp</file>
-            <file>file:/home/vivi/CarnetDeSport/AppliCarnet/web/WEB-INF/ConfirmationInscription.jsp</file>
-            <file>file:/home/vivi/CarnetDeSport/AppliCarnet/web/footer.html</file>
-            <file>file:/home/vivi/CarnetDeSport/AppliCarnet/web/WEB-INF/erreurInscription.jsp</file>
-            <file>file:/home/vivi/CarnetDeSport/AppliCarnet/src/java/controlers/LogOut.java</file>
-            <file>file:/home/vivi/CarnetDeSport/AppliCarnet/web/WEB-INF/calendar.jsp</file>
-            <file>file:/home/vivi/CarnetDeSport/AppliCarnet/web/SignUp.jsp</file>
-            <file>file:/home/vivi/CarnetDeSport/AppliCarnet/src/java/controlers/ConnectionValidation.java</file>
+            <file>file:/home/vivi/CarnetDeSport/AppliCarnet/src/java/controlers/Sports/delSport.java</file>
+            <file>file:/home/vivi/CarnetDeSport/AppliCarnet/web/js/sports.js</file>
+            <file>file:/home/vivi/CarnetDeSport/AppliCarnet/src/java/controlers/Sports/SaveSport.java</file>
+            <file>file:/home/vivi/CarnetDeSport/AppliCarnet/src/java/model/Sport.java</file>
+            <file>file:/home/vivi/CarnetDeSport/AppliCarnet/web/WEB-INF/sports.jsp</file>
+            <file>file:/home/vivi/CarnetDeSport/AppliCarnet/src/java/DAO/SportsDAO.java</file>
         </group>
     </open-files>
 </project-private>

@@ -5,33 +5,23 @@
  */
 package controlers;
 
-import DAO.InscriptionDAO;
-import Exception.mailExistant;
-import Exception.pseudoExistant;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.sql.DataSource;
+import model.Seance;
 
 /**
  *
  * @author vivi
  */
-@WebServlet(name = "InscriptionValidation", urlPatterns = {"/InscriptionValidation"})
-public class InscriptionValidation extends HttpServlet {
+@WebServlet(name = "SeancesCtrler", urlPatterns = {"/SeancesCtrler"})
+public class SeancesCtrler extends HttpServlet {
 
-    
-     @Resource(name = "jdbc/BDCarnetDeSport")
-    private DataSource dataSource;
-     
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -43,29 +33,20 @@ public class InscriptionValidation extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       String pseudo = request.getParameter("pseudo");
-       String password = request.getParameter("password");
-       String email = request.getParameter("email");
-       String nom = request.getParameter("nom");
-       String prenom = request.getParameter("prenom");
-       
-       InscriptionDAO inscriptionDAO = new InscriptionDAO(dataSource);
-       try{
-           if(inscriptionDAO.mailExiste(email)){
-               throw new mailExistant(email);
-           }
-           if(inscriptionDAO.pseudoExiste(pseudo)){
-               throw new pseudoExistant(pseudo);
-           }
-           
-         inscriptionDAO.addNewUtilisateur(pseudo, nom, prenom, email, password);
-        request.setAttribute("pseudo", pseudo);
-        request.setAttribute("prenom", prenom);
-        request.getRequestDispatcher("WEB-INF/ConfirmationInscription.jsp").forward(request, response);
-        }catch (SQLException|mailExistant|pseudoExistant ex) {
-            request.setAttribute("erreurMessage", ex.getMessage());
-            request.getRequestDispatcher("WEB-INF/pageErreur/erreurInscription.jsp").forward(request, response);
-        }   
+        response.setContentType("text/html;charset=UTF-8");
+        
+        int numDay = Integer.parseInt(request.getParameter("numDay"));
+        int numMois = Integer.parseInt(request.getParameter("numMois"));
+        int annee = Integer.parseInt(request.getParameter("annee"));
+        
+        GregorianCalendar date =new GregorianCalendar();
+        date.set(annee, numMois-1, numDay);
+        
+        ArrayList<Seance> lesSeances = new ArrayList();
+        request.setAttribute("lesSeances", lesSeances);
+        request.setAttribute("date", date);
+        getServletContext().getRequestDispatcher("/WEB-INF/viewModal.jsp").forward(request, response);
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

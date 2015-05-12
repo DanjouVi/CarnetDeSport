@@ -50,8 +50,8 @@ public class ConnectionValidation extends HttpServlet {
        
        ConnectionDAO inscriptionDAO = new ConnectionDAO(dataSource);
        try{
-           if(inscriptionDAO.identifiactionEstValide(pseudo, password)){
-               Utilisateur utilisateur = new Utilisateur(pseudo, true);
+           Utilisateur utilisateur =inscriptionDAO.identifiactionEstValide(pseudo, password);
+           if(utilisateur!=null){
                HttpSession session = request.getSession(true);
                session.setAttribute("utilisateur",utilisateur);
                request.getRequestDispatcher("index.jsp").forward(request, response);
@@ -61,7 +61,7 @@ public class ConnectionValidation extends HttpServlet {
            }
         }catch (SQLException ex) {
             request.setAttribute("erreurMessage", ex.getMessage());
-            request.getRequestDispatcher("WEB-INF/erreurInscription.jsp").forward(request, response);
+            request.getRequestDispatcher("WEB-INF/pageErreur/erreurInscription.jsp").forward(request, response);
         }   
     }
 

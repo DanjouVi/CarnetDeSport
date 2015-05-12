@@ -3,35 +3,32 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controlers;
+package controlers.Sports;
 
-import DAO.InscriptionDAO;
-import Exception.mailExistant;
-import Exception.pseudoExistant;
+import DAO.SportsDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.ArrayList;
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
+import model.Sport;
+import model.Utilisateur;
 
 /**
  *
  * @author vivi
  */
-@WebServlet(name = "InscriptionValidation", urlPatterns = {"/InscriptionValidation"})
-public class InscriptionValidation extends HttpServlet {
-
+@WebServlet(name = "Sports", urlPatterns = {"/Sports"})
+public class Sports extends HttpServlet {
     
-     @Resource(name = "jdbc/BDCarnetDeSport")
+    @Resource(name = "jdbc/BDCarnetDeSport")
     private DataSource dataSource;
-     
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -43,28 +40,20 @@ public class InscriptionValidation extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       String pseudo = request.getParameter("pseudo");
-       String password = request.getParameter("password");
-       String email = request.getParameter("email");
-       String nom = request.getParameter("nom");
-       String prenom = request.getParameter("prenom");
-       
-       InscriptionDAO inscriptionDAO = new InscriptionDAO(dataSource);
+        SportsDAO sportsDAO = new SportsDAO(dataSource);
+         HttpSession session = request.getSession();
+         Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
+         ArrayList<Sport> lesSports = new ArrayList();
+         ArrayList<Sport> lesSportsDef = new ArrayList();
        try{
-           if(inscriptionDAO.mailExiste(email)){
-               throw new mailExistant(email);
-           }
-           if(inscriptionDAO.pseudoExiste(pseudo)){
-               throw new pseudoExistant(pseudo);
-           }
-           
-         inscriptionDAO.addNewUtilisateur(pseudo, nom, prenom, email, password);
-        request.setAttribute("pseudo", pseudo);
-        request.setAttribute("prenom", prenom);
-        request.getRequestDispatcher("WEB-INF/ConfirmationInscription.jsp").forward(request, response);
-        }catch (SQLException|mailExistant|pseudoExistant ex) {
+            lesSports =sportsDAO.lesSports(utilisateur.getPseudo());
+            lesSportsDef =sportsDAO.lesSports("admin");
+            request.setAttribute("lesSports",lesSports);
+            request.setAttribute("lesSportsDef",lesSportsDef);
+            request.getRequestDispatcher("WEB-INF/sports.jsp").forward(request, response);
+        }catch (SQLException ex) {
             request.setAttribute("erreurMessage", ex.getMessage());
-            request.getRequestDispatcher("WEB-INF/pageErreur/erreurInscription.jsp").forward(request, response);
+            request.getRequestDispatcher("WEB-INF/pageErreur/erreurSports.jsp").forward(request, response);
         }   
     }
 

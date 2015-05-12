@@ -67,10 +67,12 @@
                             </div>
                         </form>
                     </div>
-                </div>    
+                    
+                </div>  
+                 
             </div>
-             <jsp:include page="footer.html"/>
-        </div>          
+        </div>  
+            <jsp:include page="footer.html"/>
     </body>
     
 <script src="js/jsIncrpition.js" type="text/javascript"></script>

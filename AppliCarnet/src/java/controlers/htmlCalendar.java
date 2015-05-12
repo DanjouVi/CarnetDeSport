@@ -40,10 +40,10 @@ public class htmlCalendar extends HttpServlet {
         calendar.setTime(new Date());
         Mois moisCourant = new Mois(calendar);
         request.setAttribute("mois", moisCourant);
-        request.setAttribute("today",calendar.get(Calendar.DATE));
+        request.setAttribute("today",calendar);
         getServletContext().getRequestDispatcher("/WEB-INF/calendar.jsp").forward(request, response);
-            
-
+          
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

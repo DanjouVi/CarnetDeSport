@@ -3,35 +3,32 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controlers;
+package controlers.Sports;
 
-import DAO.InscriptionDAO;
-import Exception.mailExistant;
-import Exception.pseudoExistant;
+import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.annotation.Resource;
+import java.io.InputStream;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.sql.DataSource;
+import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
+import model.Sport;
+import model.Utilisateur;
+import sun.org.mozilla.javascript.internal.regexp.SubString;
 
 /**
  *
  * @author vivi
  */
-@WebServlet(name = "InscriptionValidation", urlPatterns = {"/InscriptionValidation"})
-public class InscriptionValidation extends HttpServlet {
+@WebServlet(name = "FileUpload", urlPatterns = {"/FileUpload"})
+@MultipartConfig
+public class FileUpload extends HttpServlet {
 
-    
-     @Resource(name = "jdbc/BDCarnetDeSport")
-    private DataSource dataSource;
-     
+   
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -43,32 +40,40 @@ public class InscriptionValidation extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       String pseudo = request.getParameter("pseudo");
-       String password = request.getParameter("password");
-       String email = request.getParameter("email");
-       String nom = request.getParameter("nom");
-       String prenom = request.getParameter("prenom");
+        
+        HttpSession session = request.getSession();
+        Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
+        Sport newSport = (Sport) session.getAttribute("newSport");
+        
+        Part filePart = request.getPart("file");
+        String fileName = getFileName(filePart);
+        String fileExt = fileName.substring(fileName.indexOf('.'));
+        fileName = utilisateur.getPseudo() +"_"+ newSport.getNom()+ fileExt;
+        newSport.setUrlImage(fileName);
+        
+        session.setAttribute("newSport", newSport);
+        
+        InputStream fileContent = filePart.getInputStream();
+        String appPath = request.getServletContext().getRealPath("");
+        String savePath = appPath + File.separator + "images";
+
+        filePart.write(savePath + File.separator + fileName);
+        request.getRequestDispatcher("Sports").forward(request, response);
        
-       InscriptionDAO inscriptionDAO = new InscriptionDAO(dataSource);
-       try{
-           if(inscriptionDAO.mailExiste(email)){
-               throw new mailExistant(email);
-           }
-           if(inscriptionDAO.pseudoExiste(pseudo)){
-               throw new pseudoExistant(pseudo);
-           }
-           
-         inscriptionDAO.addNewUtilisateur(pseudo, nom, prenom, email, password);
-        request.setAttribute("pseudo", pseudo);
-        request.setAttribute("prenom", prenom);
-        request.getRequestDispatcher("WEB-INF/ConfirmationInscription.jsp").forward(request, response);
-        }catch (SQLException|mailExistant|pseudoExistant ex) {
-            request.setAttribute("erreurMessage", ex.getMessage());
-            request.getRequestDispatcher("WEB-INF/pageErreur/erreurInscription.jsp").forward(request, response);
-        }   
     }
+    private static String getFileName(Part part) {
+    for (String cd : part.getHeader("content-disposition").split(";")) {
+        if (cd.trim().startsWith("filename")) {
+            String fileName = cd.substring(cd.indexOf('=') + 1).trim().replace("\"", "");
+            return fileName.substring(fileName.lastIndexOf('/') + 1).substring(fileName.lastIndexOf('\\') + 1); // MSIE fix.
+        }
+    }
+    return null;
+}
+   
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+
     /**
      * Handles the HTTP <code>GET</code> method.
      *
