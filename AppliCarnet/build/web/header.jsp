@@ -15,7 +15,7 @@
                             <li<%if(pageCourant.equals("index")){%> class="active"<%}%>><a href="index.jsp"><span class="glyphicon glyphicon-home"></span> Home</a></li>
                             <%if(utilisateur!=null){%>
                                 <li<%if(pageCourant.equals("calendar")){%> class="active"<%}%>><a href="htmlCalendar"><span class="glyphicon glyphicon-calendar"></span> Calendrier</a></li>
-                                <li<%if(pageCourant.equals("sports")){%> class="active"<%}%>><a href="Sports">Sports</a></li>
+                                <li<%if(pageCourant.equals("sports")){%> class="active"<%}%>><a href="ResetSport">Sports</a></li>
                                 
                                 <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-globe"></span> Parcours<span class="caret"></span></a>
                                     <ul class="dropdown-menu">

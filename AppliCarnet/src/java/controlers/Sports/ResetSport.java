@@ -36,6 +36,8 @@ public class ResetSport extends HttpServlet {
         HttpSession session = request.getSession();
         session.setAttribute("newSport", null);
         session.setAttribute("isPreDef", null);
+        boolean isModif = false;
+        session.setAttribute("isModif", isModif);
         
         request.getRequestDispatcher("Sports").forward(request, response);
     }

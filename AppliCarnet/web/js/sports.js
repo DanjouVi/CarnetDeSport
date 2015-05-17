@@ -9,19 +9,37 @@ function rowStyle(row, index) {
 }
 
 
-function modifSport(nomSport,nbSeance){
-    alert(nomSport);
-}
 
 function deleteSport(nomSport, nbSeance){
     var supr = true;
     if(nbSeance!==0){
-        supr = confirm("Attenttion les "+nbSeance+" Seances associées a ce sport seront suprimées en meme temps que le sport : "+nomSport);
+        supr = confirm("Attention les "+nbSeance+" Seances associées a ce sport seront suprimées en meme temps que le sport : "+nomSport);
     }else{
         supr = confirm("Attention vous etes sur le point de supprimer le sport : "+nomSport);
     }
     if(supr) document.location.href="delSport?nomSport="+nomSport+"&nbSeance="+nbSeance; 
 }
+
+
+function modifSport(nomSport,nbSeance){   
+     document.location.href="modifSport?nomSport="+nomSport;
+}
+function saveModifSport(nomSport,nbSeances,typeSeance){
+    var modif = true;
+    if(nbSeances>0){
+        if(typeSeance != $("#typeSport").val()){
+            alert("il est imposible de modifier le type d'un sport comportant des séances");
+            modif = false;
+        }else{
+            modif = confirm("Attention les "+nbSeances+" séances associées a ce sport seront modifiée en meme temps que le sport : "+nomSport);
+        }
+    }
+    if(modif)
+         document.location.href="saveModifSport?nomSport="+$("#inputNomSport").val()+"&typeSport="+$("#typeSport").val();
+    
+    
+}
+
 function sportPreDef(isPreDef) {
     var nom = "";
     if (isPreDef == "true") {

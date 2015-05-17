@@ -57,24 +57,30 @@
                                     <td><%=sport.getNom()%></td>
                                     <td><%=sport.getTypeSeance()%></td>
                                     <td><%=sport.getNbSeance()%></td>
-                                    <td><button value="<%=sport.getNom()%>" type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Modifier sport" onclick="modifSport(this.value,<%=sport.getNbSeance()%>)"><span class="glyphicon glyphicon-cog" ></span></button>&nbsp;<button value="<%=sport.getNom()%>" type="button" class="btn btn-danger" data-toggle="tooltip" data-placement="bottom" title="Suprimer sport" onclick="deleteSport(this.value,<%=sport.getNbSeance()%>)"><span class="glyphicon glyphicon-minus" ></span></button></td>
+                                    <td>
+                                        <button value="<%=sport.getNom()%>" type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Modifier sport" onclick="modifSport(this.value)"><span class="glyphicon glyphicon-cog" ></span></button>&nbsp;
+                                        <button value="<%=sport.getNom()%>" type="button" class="btn btn-danger" data-toggle="tooltip" data-placement="bottom" title="Suprimer sport" onclick="deleteSport(this.value,<%=sport.getNbSeance()%>)"><span class="glyphicon glyphicon-minus" ></span></button>
+                                    </td>
                                 </tr>
                                 <% } %>
                             </tbody>
                         </table>
-                        <h4>Nouveau Sport</h4>
+                        <%String isPreDef = (String) session.getAttribute("isPreDef");
+                        Sport newSport = (Sport) session.getAttribute("newSport");
+                        boolean modifSport = (Boolean) session.getAttribute("isModif");
+                        if (modifSport){%>
+                           <h4>Modifier Sport : <%=newSport.getNom()%></h4> 
+                        <%}else{%>
+                            <h4>Nouveau Sport</h4>
+                        <%}%>
                         <HR size=3px>
                         <div class="form-group">
-                            <%String isPreDef = (String) session.getAttribute("isPreDef");
-                            Sport newSport = (Sport) session.getAttribute("newSport");
-                            %>
-                            
                             <label control-label class="col-md-4"> Sport prédefini: </label>
                             <select <%if(newSport!= null){ %> disabled <%}%> name="SportPreDef" class="col-md-2" onchange="sportPreDef(this.value)">
                                 <option value="true" selected> Oui </option>
                                 <option value="false" <% if (isPreDef!=null && isPreDef.equals("false")){%> selected <%}%> > Non </option>
                             </select>
-                            <div id="nomSportDef" <% if (isPreDef!=null && isPreDef.equals("false")){%>style="display: none"<%}%>>
+                            <div id="nomSportDef" <% if ((isPreDef!=null && isPreDef.equals("false"))|| modifSport==true){%>style="display: none"<%}%>>
                                 <label control-label class="col-md-4"> Nom sport: </label>
                                 <select <%if(newSport!= null){ %> disabled <%}%> name="nomSportDef" class="col-md-5">
                                     <option value="">choix de sport</option>
@@ -86,12 +92,14 @@
                                     <% }%>
                                 </select>
                             </div>
-                            <div id="nomSport" <% if (isPreDef== null || isPreDef.equals("true")){%>style="display: none"<%}%>>
+                            <div id="nomSport" <% if ((isPreDef== null || isPreDef.equals("true"))&& modifSport==false){%>style="display: none"<%}%>>
                                 <label control-label class="col-md-4"> Nom sport: </label> 
-                                <input <%if(newSport!= null){ %> disabled <%}%>type="text" name="nomSport"class="col-md-5" value="${newSport.nom}">
+                                <input <%if(newSport!= null && modifSport==false){ %> disabled <%}%>type="text" id="inputNomSport" name="nomSport"class="col-md-5" value="${newSport.nom}">
                             </div> 
                             <div class="row">
-                                <button id="buttonEtapeSuivante" class="btn btn-primary col-md-4 col-md-offset-11" onclick="etapeSuivante()">Etape Suivante <span class="glyphicon glyphicon-chevron-right"></span></button> 
+                                <%if(newSport== null ){%>
+                                    <button id="buttonEtapeSuivante" class="btn btn-primary col-md-4 col-md-offset-11" onclick="etapeSuivante()">Etape Suivante <span class="glyphicon glyphicon-chevron-right"></span></button> 
+                                <%}%>
                             </div>
 
                         </div>
@@ -109,18 +117,21 @@
                                         </div>  
                                     </button>
                                 </div>  
-                                <form  class="col-sm-12" enctype="multipart/form-data" action="FileUpload" method="post">
-                                    <label control-label class="col-md-5"> Image du Sport: </label><input  class="col-md-9" type="file" class="file file-input-new" name="file">
-                                    <input type="submit" class="col-md-5" value="Upload File" />
+                                <form  class="col-sm-12 text-left" enctype="multipart/form-data" action="FileUpload" method="post">
+                                    <div class="form-group">
+                                        <label control-label class="col-md-5"> Image du Sport: </label><input  class="col-md-9" type="file" class="file file-input-new" name="file">
+                                        <input type="submit" class="col-md-5" value="Upload File" />
+                                    </div>
                                 </form>
-                                <form class="col-sm-12" id="typeSport">
-                                    <label control-label class="col-md-5"> Type de Sport: </label>
-                                    <select class="col-md-9" id="typeSport" name="typeSport">
-                                        <option value="default"> Default </option>
-                                        <option value="distance" <%if(newSport!=null && newSport.getTypeSeance().equals("distance")){%> selected <%}%>> Distance </option>
-                                        <option value="match"<%if(newSport!=null && newSport.getTypeSeance().equals("match")){%> selected <%}%>> Match </option>
-                                    </select>
-
+                                <form class="col-sm-12 text-left">
+                                    <div class="form-group">
+                                        <label control-label > Type de Sport: </label>
+                                        <select id="typeSport" name="typeSport">
+                                            <option value="default"> Default </option>
+                                            <option value="distance" <%if(newSport!=null && newSport.getTypeSeance().equals("distance")){%> selected <%}%>> Distance </option>
+                                            <option value="match"<%if(newSport!=null && newSport.getTypeSeance().equals("match")){%> selected <%}%>> Match </option>
+                                        </select>
+                                    </div>
                                 </form>
                             </div>  
                             <div class='row'>
@@ -128,7 +139,7 @@
                                     <button id="valInscription" class="btn btn-danger btn-block" onclick="initSport()">Annuler&nbsp;<span class="glyphicon glyphicon-trash" aria-hidden="false" ></span></button>
                                 </div>
                                 <div class='col-xs-7 col-xs-offset-1 '>
-                                    <button id="valInscription" class="btn btn-primary btn-block" onclick="saveSport()">Ajouter Sport&nbsp;<span class="glyphicon glyphicon-ok" aria-hidden="false" ></span></button>
+                                    <button id="valInscription" class="btn btn-primary btn-block" <%if(modifSport==false){%>onclick="saveSport()">Ajouter Sport&nbsp;<%}else{%> onclick="saveModifSport('<%=newSport.getNom()%>',<%=newSport.getNbSeance()%>,'<%=newSport.getTypeSeance()%>')">Modifier Sport&nbsp;<%}%><span class="glyphicon glyphicon-ok" aria-hidden="false" ></span></button>
                                 </div>
                             </div>
                         </div>

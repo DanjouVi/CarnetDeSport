@@ -49,4 +49,3 @@ FROM lesSports lSp
 LEFT OUTER JOIN lesSeances lSe ON (lSp.utilisateur=lSe.utilisateur AND nom=sport)
 GROUP BY nom,lSp.utilisateur;
 
-select nom, typeSport,photo, nbSeance from viewLesSports where utilisateur ='Silf2'

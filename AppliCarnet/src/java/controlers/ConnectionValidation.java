@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
+import model.Mail;
 import model.Utilisateur;
 
 /**
@@ -54,6 +55,8 @@ public class ConnectionValidation extends HttpServlet {
            if(utilisateur!=null){
                HttpSession session = request.getSession(true);
                session.setAttribute("utilisateur",utilisateur);
+               Mail mail = new Mail();
+               mail.sendMail();
                request.getRequestDispatcher("index.jsp").forward(request, response);
            }else{
                request.setAttribute("erreurConnection", "IdentificationErreur");
