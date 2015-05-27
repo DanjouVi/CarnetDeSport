@@ -53,11 +53,15 @@ public class ConnectionValidation extends HttpServlet {
        try{
            Utilisateur utilisateur =inscriptionDAO.identifiactionEstValide(pseudo, password);
            if(utilisateur!=null){
-               HttpSession session = request.getSession(true);
-               session.setAttribute("utilisateur",utilisateur);
-               Mail mail = new Mail();
-               mail.sendMail();
-               request.getRequestDispatcher("index.jsp").forward(request, response);
+               if(utilisateur.getValEmail().equals("OK")){
+                    HttpSession session = request.getSession(true);
+                   session.setAttribute("utilisateur",utilisateur);
+                   request.getRequestDispatcher("index.jsp").forward(request, response);
+               }else{
+                   HttpSession session = request.getSession(true);
+                   session.setAttribute("utilisateurTemp",utilisateur);
+                   request.getRequestDispatcher("WEB-INF/valEmail.jsp").forward(request, response);
+               }
            }else{
                request.setAttribute("erreurConnection", "IdentificationErreur");
                request.getRequestDispatcher("Login.jsp").forward(request, response);

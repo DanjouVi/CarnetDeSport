@@ -5,17 +5,23 @@
  */
 package controlers;
 
+import DAO.SeancesDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Calendar;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.sql.DataSource;
 import model.Mois;
+import model.Utilisateur;
 
 /**
  *
@@ -24,6 +30,9 @@ import model.Mois;
 @WebServlet(name = "htmlCalendar", urlPatterns = {"/htmlCalendar"})
 public class htmlCalendar extends HttpServlet {
 
+    @Resource(name = "jdbc/BDCarnetDeSport")
+    private DataSource dataSource;  
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -36,12 +45,20 @@ public class htmlCalendar extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        GregorianCalendar calendar =new GregorianCalendar();
-        calendar.setTime(new Date());
-        Mois moisCourant = new Mois(calendar);
-        request.setAttribute("mois", moisCourant);
-        request.setAttribute("today",calendar);
-        getServletContext().getRequestDispatcher("/WEB-INF/calendar.jsp").forward(request, response);
+        try {
+            HttpSession session = request.getSession();
+            Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
+            
+            GregorianCalendar calendar =new GregorianCalendar();
+            calendar.setTime(new Date());
+            Mois moisCourant = new Mois(calendar,utilisateur,dataSource);
+            request.setAttribute("mois", moisCourant);
+            request.setAttribute("today",calendar);
+            getServletContext().getRequestDispatcher("/WEB-INF/calendar.jsp").forward(request, response);
+        } catch (SQLException ex) {
+            request.setAttribute("erreurMessage", ex.getMessage());
+            request.getRequestDispatcher("WEB-INF/pageErreur/erreurGen.jsp").forward(request, response);
+        }
           
         
     }

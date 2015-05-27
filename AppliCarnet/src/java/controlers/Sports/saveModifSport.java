@@ -8,7 +8,6 @@ package controlers.Sports;
 import DAO.SportsDAO;
 import Exception.sportExistant;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 import javax.annotation.Resource;
 import javax.servlet.ServletException;

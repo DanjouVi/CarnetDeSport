@@ -20,6 +20,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
+import java.util.UUID;
+import model.Mail;
 
 /**
  *
@@ -58,7 +60,14 @@ public class InscriptionValidation extends HttpServlet {
                throw new pseudoExistant(pseudo);
            }
            
-        inscriptionDAO.addNewUtilisateur(pseudo, nom, prenom, email, password);
+        String codeVal = UUID.randomUUID().toString().split("-")[0];
+        Mail mail = new Mail(email,"Validation email CarnetDeSport","Bonjour "+prenom +",\n" +
+                "\n Pour valider ton inscription a CarnetDeSport connect toi avec ton pseudo et ton mot de passe puis entre le code d'activation \n"+
+                "\n Pseudo : "+ pseudo+
+                "\n Code d'activation : "+ codeVal);
+        mail.sendMail();
+        inscriptionDAO.addNewUtilisateur(pseudo, nom, prenom, email, password,codeVal);
+       
         request.setAttribute("pseudo", pseudo);
         request.setAttribute("prenom", prenom);
         request.getRequestDispatcher("WEB-INF/ConfirmationInscription.jsp").forward(request, response);

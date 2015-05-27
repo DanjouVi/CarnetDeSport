@@ -50,16 +50,17 @@ public class InscriptionDAO  extends AbstractDataSourceDAO{
         
     }
     
-    public void addNewUtilisateur(String pseudo,String nom,String prenom, String email, String password) throws SQLException{
+    public void addNewUtilisateur(String pseudo,String nom,String prenom, String email, String password,String codeVal) throws SQLException{
         Connection conn = null;
         try{
             conn = dataSource.getConnection();
-            PreparedStatement prepStmt = conn.prepareStatement("insert into lesUtilisateurs values(?,?,?,?,?)");
+            PreparedStatement prepStmt = conn.prepareStatement("insert into lesUtilisateurs values(?,?,?,?,?,?)");
             prepStmt.setString(1, pseudo);
             prepStmt.setString(2, nom);
             prepStmt.setString(3, prenom);
             prepStmt.setString(4, email);
             prepStmt.setString(5, password);
+            prepStmt.setString(6, codeVal);
             prepStmt.executeUpdate();
         }finally{
             closeConnection(conn);

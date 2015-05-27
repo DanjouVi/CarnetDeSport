@@ -3,17 +3,25 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controlers;
+package controlers.Seances;
 
+import DAO.SeancesDAO;
+import DAO.SportsDAO;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.sql.DataSource;
 import model.Seance;
+import model.Sport;
+import model.Utilisateur;
 
 /**
  *
@@ -21,6 +29,9 @@ import model.Seance;
  */
 @WebServlet(name = "SeancesCtrler", urlPatterns = {"/SeancesCtrler"})
 public class SeancesCtrler extends HttpServlet {
+
+    @Resource(name = "jdbc/BDCarnetDeSport")
+    private DataSource dataSource;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,19 +44,33 @@ public class SeancesCtrler extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        
+
+        HttpSession session = request.getSession();
+        Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
+        SportsDAO sportsDAO = new SportsDAO(dataSource);
+        SeancesDAO seancesDAO = new SeancesDAO(dataSource);
+
         int numDay = Integer.parseInt(request.getParameter("numDay"));
         int numMois = Integer.parseInt(request.getParameter("numMois"));
         int annee = Integer.parseInt(request.getParameter("annee"));
-        
-        GregorianCalendar date =new GregorianCalendar();
-        date.set(annee, numMois-1, numDay);
-        
+
+        GregorianCalendar date = new GregorianCalendar();
+        date.set(annee, numMois - 1, numDay);
+
+        try {
+            ArrayList<Sport> lesSports = sportsDAO.lesSports(utilisateur.getPseudo());
+            request.setAttribute("lesSports", lesSports);
+
+            ArrayList<String> lesLieus = seancesDAO.lesLieus(utilisateur);
+            request.setAttribute("lesLieus", lesLieus);
+        } catch (SQLException ex) {
+            request.setAttribute("erreurMessage", ex.getMessage());
+            request.getRequestDispatcher("WEB-INF/pageErreur/erreurGen.jsp").forward(request, response);
+        }
         ArrayList<Seance> lesSeances = new ArrayList();
         request.setAttribute("lesSeances", lesSeances);
         request.setAttribute("date", date);
-        getServletContext().getRequestDispatcher("/WEB-INF/viewModal.jsp").forward(request, response);
+        getServletContext().getRequestDispatcher("/WEB-INF/viewModalSeances.jsp").forward(request, response);
 
     }
 

@@ -37,6 +37,9 @@ function VerifInscription(){
   $("input[name='password']").val(MD5(pass));
 };
 
+function valEmail(type){
+  document.location.href="valEmail?type="+type+"&code="+$("#inputCodeVal").val();  
+}
 
 
 

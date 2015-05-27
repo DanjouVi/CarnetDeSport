@@ -35,7 +35,7 @@
                             </div>
                             <div class="form-group">
                                 <label control-label class="col-md-5 col-lg-offset-1"> Password : </label>
-                                <input type="password" name="password" class="col-md-7 col-lg-offset-1" value="pass" required> </input>
+                                <input type="password" name="password" class="col-md-7 col-lg-offset-1" value="3810" required> </input>
                             </div>
 
                             <%if (request.getAttribute("erreurConnection") != null) {%>

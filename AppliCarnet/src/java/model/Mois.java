@@ -5,18 +5,10 @@
  */
 package model;
 
-import java.awt.Color;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+import java.sql.SQLException;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
+import javax.sql.DataSource;
 
 /**
  *
@@ -54,6 +46,12 @@ public class Mois {
         }
         return -1;
     }
+    public Jour getClasseJour(int sem,int jour){
+         if (sem <= 6 && sem >= 0) {
+            return semaines[sem].getJour(jour);
+        }
+        return null;
+    }
      public boolean getEstDansMois(int sem,int jour) {
         if (sem <= 6 && sem >= 0) {
             return semaines[sem].getJour(jour).estDansMois;
@@ -61,12 +59,12 @@ public class Mois {
         return false;
     }
 
-    public Mois(GregorianCalendar jour) {
+    public Mois(GregorianCalendar jour, Utilisateur utilisateur,DataSource dataSource) throws SQLException {
         numMois = jour.get(Calendar.MONTH) + 1;
         annee = jour.get(Calendar.YEAR);
         jour = getFirstWeekDay();
         for (int i = 0; i < 6; i++) {
-            semaines[i] = new Semaine(jour, numMois);
+            semaines[i] = new Semaine(jour, numMois,utilisateur,dataSource);
         }
     }
 

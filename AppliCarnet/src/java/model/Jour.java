@@ -5,27 +5,38 @@
  */
 package model;
 
-import java.awt.GridBagConstraints;
+import DAO.SeancesDAO;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import javax.swing.JFrame;
+import javax.sql.DataSource;
 
 /**
  *
  * @author vivi
  */
-class Jour {
+public class Jour {
+    
 
     public boolean estDansMois;
     private int numJour;
+    private ArrayList<Seance> lesSeances;
+    private SeancesDAO seancesDAO;
 
     public int getNumJour() {
         return numJour;
     }
 
-    public Jour(GregorianCalendar jour,int numMois) {
+    public Jour(GregorianCalendar jour,int numMois,Utilisateur utilisateur,DataSource dataSource) throws SQLException {
         numJour = jour.get(Calendar.DATE);
         estDansMois = (jour.get(Calendar.MONTH)+1==numMois);
+        seancesDAO = new SeancesDAO(dataSource);
+        lesSeances = seancesDAO.lesSeances(utilisateur, jour);
     }
 
+    public ArrayList<Seance> getLesSeances() {
+        return lesSeances;
+    }
+    
 }

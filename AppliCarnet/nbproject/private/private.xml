@@ -3,24 +3,23 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/vivi/CarnetDeSport/AppliCarnet/src/java/model/mail.java</file>
-            <file>file:/home/vivi/CarnetDeSport/AppliCarnet/web/css/MyCSS.css</file>
-            <file>file:/home/vivi/CarnetDeSport/AppliCarnet/web/Login.jsp</file>
-            <file>file:/home/vivi/CarnetDeSport/AppliCarnet/src/java/controlers/Sports/SaveSport.java</file>
-            <file>file:/home/vivi/CarnetDeSport/AppliCarnet/web/header.jsp</file>
-            <file>file:/home/vivi/CarnetDeSport/AppliCarnet/web/WEB-INF/ConfirmationInscription.jsp</file>
-            <file>file:/home/vivi/CarnetDeSport/AppliCarnet/src/java/controlers/Sports/saveModifSport.java</file>
+            <file>file:/home/vivi/CarnetDeSport/AppliCarnet/src/java/model/Jour.java</file>
+            <file>file:/home/vivi/CarnetDeSport/AppliCarnet/src/java/controlers/InscriptionValidation.java</file>
+            <file>file:/home/vivi/CarnetDeSport/AppliCarnet/src/java/controlers/htmlCalendar.java</file>
+            <file>file:/home/vivi/CarnetDeSport/AppliCarnet/src/java/controlers/Seances/SaveSeance.java</file>
+            <file>file:/home/vivi/CarnetDeSport/AppliCarnet/web/js/jsModal.js</file>
+            <file>file:/home/vivi/CarnetDeSport/AppliCarnet/web/js/jsCalendar.js</file>
+            <file>file:/home/vivi/CarnetDeSport/AppliCarnet/web/js/jsIncrpition.js</file>
+            <file>file:/home/vivi/CarnetDeSport/AppliCarnet/src/java/model/Sport.java</file>
             <file>file:/home/vivi/CarnetDeSport/AppliCarnet/web/WEB-INF/calendar.jsp</file>
-            <file>file:/home/vivi/CarnetDeSport/AppliCarnet/src/java/controlers/LogOut.java</file>
-            <file>file:/home/vivi/CarnetDeSport/AppliCarnet/web/SignUp.jsp</file>
-            <file>file:/home/vivi/CarnetDeSport/AppliCarnet/src/java/controlers/ConnectionValidation.java</file>
-            <file>file:/home/vivi/CarnetDeSport/AppliCarnet/src/java/Exception/mailExistant.java</file>
-            <file>file:/home/vivi/CarnetDeSport/AppliCarnet/src/java/Exception/sportExistant.java</file>
-            <file>file:/home/vivi/CarnetDeSport/AppliCarnet/web/META-INF/context.xml</file>
-            <file>file:/home/vivi/CarnetDeSport/AppliCarnet/web/js/sports.js</file>
-            <file>file:/home/vivi/CarnetDeSport/AppliCarnet/web/index.jsp</file>
-            <file>file:/home/vivi/CarnetDeSport/AppliCarnet/web/footer.html</file>
+            <file>file:/home/vivi/CarnetDeSport/AppliCarnet/src/java/controlers/Sports/saveModifSport.java</file>
+            <file>file:/home/vivi/CarnetDeSport/AppliCarnet/src/java/DAO/SeancesDAO.java</file>
+            <file>file:/home/vivi/CarnetDeSport/AppliCarnet/src/java/controlers/modifDateCalendar.java</file>
+            <file>file:/home/vivi/CarnetDeSport/AppliCarnet/src/java/model/Semaine.java</file>
+            <file>file:/home/vivi/CarnetDeSport/AppliCarnet/web/WEB-INF/viewModalSeances.jsp</file>
             <file>file:/home/vivi/CarnetDeSport/AppliCarnet/web/WEB-INF/sports.jsp</file>
+            <file>file:/home/vivi/CarnetDeSport/AppliCarnet/src/java/model/Seance.java</file>
+            <file>file:/home/vivi/CarnetDeSport/AppliCarnet/src/java/model/Mois.java</file>
             <file>file:/home/vivi/CarnetDeSport/AppliCarnet/src/java/DAO/SportsDAO.java</file>
         </group>
     </open-files>

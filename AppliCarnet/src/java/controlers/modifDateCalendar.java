@@ -6,16 +6,21 @@
 package controlers;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Calendar;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.sql.DataSource;
 import model.Mois;
+import model.Utilisateur;
 
 /**
  *
@@ -24,6 +29,9 @@ import model.Mois;
 @WebServlet(name = "modifDateCalendar", urlPatterns = {"/modifDateCalendar"})
 public class modifDateCalendar extends HttpServlet {
 
+    @Resource(name = "jdbc/BDCarnetDeSport")
+    private DataSource dataSource;  
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -35,16 +43,23 @@ public class modifDateCalendar extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int year =  Integer.parseInt(request.getParameter("year"));
-        int mois =  Integer.parseInt(request.getParameter("mois"));
-
-        GregorianCalendar calendar =new GregorianCalendar();
-        calendar.set(year, mois-1, 1);
-        Mois moisCourant = new Mois(calendar);
-        request.setAttribute("mois", moisCourant);
-        calendar.setTime(new Date());
-        request.setAttribute("today",calendar);
-        getServletContext().getRequestDispatcher("/WEB-INF/calendar.jsp").forward(request, response);
+        try {
+            int year =  Integer.parseInt(request.getParameter("year"));
+            int mois =  Integer.parseInt(request.getParameter("mois"));
+            HttpSession session = request.getSession();
+            Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
+            
+            GregorianCalendar calendar =new GregorianCalendar();
+            calendar.set(year, mois-1, 1);
+            Mois moisCourant = new Mois(calendar,utilisateur,dataSource);
+            request.setAttribute("mois", moisCourant);
+            calendar.setTime(new Date());
+            request.setAttribute("today",calendar);
+            getServletContext().getRequestDispatcher("/WEB-INF/calendar.jsp").forward(request, response);
+        } catch (SQLException ex) {
+            request.setAttribute("erreurMessage", ex.getMessage());
+            request.getRequestDispatcher("WEB-INF/pageErreur/erreurGen.jsp").forward(request, response);
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

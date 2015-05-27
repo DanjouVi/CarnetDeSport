@@ -8,7 +8,6 @@ package model;
 import java.util.*;
 import javax.mail.*;
 import javax.mail.internet.*;
-import javax.activation.*;
 
 /**
  *
@@ -16,9 +15,18 @@ import javax.activation.*;
  */
 public class Mail {
 
-    final String username = "xxxx@gmail.com";
-    final String password = "xxxx";
+    final String username = "xxx@gmail.com";
+    final String password = "xxx";
+    String toEmail;
+    String subJect;
+    String txt;
 
+    public Mail(String toEmail,String subject,String message){
+        this.toEmail=toEmail;
+        this.subJect = subject;
+        this.txt = message;
+        
+    }
     public void sendMail() {
 
         Properties props = new Properties();
@@ -39,10 +47,9 @@ public class Mail {
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(username));
             message.setRecipients(Message.RecipientType.TO,
-                    InternetAddress.parse("vianney.danjou@yahoo.fr"));
-            message.setSubject("Testing Subject");
-            message.setText("Dear Mail Crawler,"
-                    + "\n\n No spam to my email, please!");
+                    InternetAddress.parse(toEmail));
+            message.setSubject(subJect);
+            message.setText(txt);
 
             Transport.send(message);
 

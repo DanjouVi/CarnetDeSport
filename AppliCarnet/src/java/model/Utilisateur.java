@@ -15,15 +15,21 @@ public class Utilisateur {
     private String nom;
     private String prenom;
     private String email;
+    private String valEmail;
 
 
 
-    public Utilisateur(String pseudo, boolean estConnecte, String nom, String prenom, String email) {
+    public Utilisateur(String pseudo, boolean estConnecte, String nom, String prenom, String email,String valEmail) {
         this.pseudo = pseudo;
         this.estConnecte = estConnecte;
         this.nom = nom;
         this.prenom = prenom;
         this.email = email;
+        this.valEmail=valEmail;
+    }
+
+    public String getValEmail() {
+        return valEmail;
     }
 
     public String getPseudo() {

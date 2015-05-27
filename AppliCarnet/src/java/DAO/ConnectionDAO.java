@@ -32,9 +32,22 @@ public class ConnectionDAO extends AbstractDataSourceDAO{
             prepStmt.setString(2, password);
             ResultSet rs = prepStmt.executeQuery();
             if (rs.next()){
-                utilisateur = new Utilisateur(rs.getString("pseudo"),true,rs.getString("nom"),rs.getString("prenom"),rs.getString("adresseMail"));
+                utilisateur = new Utilisateur(rs.getString("pseudo"),true,rs.getString("nom"),rs.getString("prenom"),rs.getString("adresseMail"),rs.getString("codeVal"));
             }
             return utilisateur;
+        }finally{
+            closeConnection(conn);
+        }
+    }
+    
+     public void valEmail(String pseudo) throws SQLException{
+         Connection conn = null;
+         Utilisateur utilisateur =null;
+        try{
+            conn = dataSource.getConnection();
+            PreparedStatement prepStmt = conn.prepareStatement("UPDATE lesUtilisateurs SET codeVal='OK' where pseudo = ?");
+            prepStmt.setString(1, pseudo);
+            prepStmt.executeUpdate();
         }finally{
             closeConnection(conn);
         }
