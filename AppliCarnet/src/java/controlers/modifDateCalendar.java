@@ -9,8 +9,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -52,7 +50,7 @@ public class modifDateCalendar extends HttpServlet {
             GregorianCalendar calendar =new GregorianCalendar();
             calendar.set(year, mois-1, 1);
             Mois moisCourant = new Mois(calendar,utilisateur,dataSource);
-            request.setAttribute("mois", moisCourant);
+            session.setAttribute("mois", moisCourant);
             calendar.setTime(new Date());
             request.setAttribute("today",calendar);
             getServletContext().getRequestDispatcher("/WEB-INF/calendar.jsp").forward(request, response);

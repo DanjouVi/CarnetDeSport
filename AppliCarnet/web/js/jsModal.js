@@ -5,10 +5,13 @@
  */
 
 $('#dureeSeance').timepicker({
+    timeFormat: 'HH:mm:ss',
     showButtonPanel: false,
     hourGrid: 2,
     minuteGrid: 10,
-    hourMax: 10
+    secondGrid: 10,
+    hourMax: 10,
+    stepSecond: 5
 });
 
 chgSport($("#selectSport").val());
@@ -36,8 +39,49 @@ function chgSport(dataSport) {
     } else {
         $("#imgSport").hide();
     }
+
+    if (typeSport == "default") {
+        $("#typeDistance").hide();
+    } else if (typeSport == "distance") {
+        $("#typeDistance").show();
+    } else {
+
+    }
 }
 ;
+
+function chgParcours(dataParcours) {
+    if (dataParcours != "") {
+        var lesDataParcours = dataParcours.split("_-_");
+        var id = lesDataParcours[0];
+        var distance = lesDataParcours[1];
+        var denivele = lesDataParcours[2];
+        $("#nbTours").val(1);
+        $("#nbTours").prop('disabled', false);
+
+        $("#distance").val(distance);
+        $("#distance").prop('disabled', true);
+
+        $("#denivele").val(denivele);
+        $("#denivele").prop('disabled', true);
+    } else {
+        $("#nbTours").prop('disabled', true);
+        $("#distance").prop('disabled', false);
+        $("#denivele").prop('disabled', false);
+    }
+}
+
+function chgNbTours(nbTours) {
+    var dataParcours = $("#selectParcours").val();
+    var lesDataParcours = dataParcours.split("_-_");
+    var id = lesDataParcours[0];
+    var distance = lesDataParcours[1];
+    var denivele = lesDataParcours[2];
+
+    $("#distance").val(distance * nbTours);
+
+    $("#denivele").val(denivele * nbTours);
+}
 
 function valSeance(date) {
     var meteo = $("#selectMeteo").val();
@@ -50,6 +94,6 @@ function valSeance(date) {
         $("#labelNomSeance").css("color", "red");
     } else {
         $("#labelNomSeance").css("color", "black");
-        document.location.href="SaveSeance?meteo="+meteo+"&comment="+comment+"&lieu="+lieu+"&sport="+sport+"&duree="+duree+"&nomSeance="+nomSeance+"&date="+date;
+        document.location.href = "SaveSeance?meteo=" + meteo + "&comment=" + comment + "&lieu=" + lieu + "&sport=" + sport + "&duree=" + duree + "&nomSeance=" + nomSeance + "&date=" + date;
     }
 }

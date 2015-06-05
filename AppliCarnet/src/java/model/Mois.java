@@ -47,8 +47,27 @@ public class Mois {
         return -1;
     }
     public Jour getClasseJour(int sem,int jour){
-         if (sem <= 6 && sem >= 0) {
+        if (sem <= 6 && sem >= 0) {
             return semaines[sem].getJour(jour);
+        }
+        return null;
+    }
+    
+    public Jour getClasseJour(int jour){
+        int sem=0;
+        boolean found= false;
+        Jour leJour = null;
+        while(!found && sem<=6){
+            int jourSem = 0;
+            while (!found && jourSem<=6){
+                leJour =  this.getClasseJour(sem, jourSem);
+                found =leJour.getNumJour()== jour && leJour.estDansMois;
+                jourSem++;
+            }
+            sem++;
+        }
+        if (found) {
+            return leJour;
         }
         return null;
     }

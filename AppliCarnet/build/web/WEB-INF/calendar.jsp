@@ -90,7 +90,7 @@
                 </div>
 
                 <%  int i, j;
-                    Mois moisCourant = (Mois) request.getAttribute("mois");
+                    Mois moisCourant = (Mois) session.getAttribute("mois");
                     int today = ((Calendar) request.getAttribute("today")).get(Calendar.DAY_OF_MONTH);
                     int month = ((Calendar) request.getAttribute("today")).get(Calendar.MONTH) + 1;
                     int year = ((Calendar) request.getAttribute("today")).get(Calendar.YEAR);
@@ -113,7 +113,7 @@
                                 <%=jour%><br/>
                             </div>
                             <div class="row">
-                                <div class="col-sm-14 col-sm-offset-1"><% if (classJour.getLesSeances().size()>0){%><img  height="70" src="images/<%=classJour.getLesSeances().get(0)%>"></img><%}%>
+                                <div class="col-sm-14 col-sm-offset-1"><% if (classJour.getLesSeances().size()>0){%><img  height="70" src="images/<%=classJour.getLesSeances().get(0).getSport().getUrlImage()%>"></img><%}%>
                                 </div>
                             </div> 
                         </button>

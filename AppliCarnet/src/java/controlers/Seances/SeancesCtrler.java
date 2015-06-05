@@ -5,6 +5,7 @@
  */
 package controlers.Seances;
 
+import DAO.ParcoursDAO;
 import DAO.SeancesDAO;
 import DAO.SportsDAO;
 import java.io.IOException;
@@ -19,7 +20,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
-import model.Seance;
+import model.Mois;
+import model.Parcour;
 import model.Sport;
 import model.Utilisateur;
 
@@ -49,28 +51,36 @@ public class SeancesCtrler extends HttpServlet {
         Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
         SportsDAO sportsDAO = new SportsDAO(dataSource);
         SeancesDAO seancesDAO = new SeancesDAO(dataSource);
-
+        ParcoursDAO parcoursDAO = new ParcoursDAO(dataSource);
+        
         int numDay = Integer.parseInt(request.getParameter("numDay"));
         int numMois = Integer.parseInt(request.getParameter("numMois"));
         int annee = Integer.parseInt(request.getParameter("annee"));
 
         GregorianCalendar date = new GregorianCalendar();
         date.set(annee, numMois - 1, numDay);
+        
 
         try {
             ArrayList<Sport> lesSports = sportsDAO.lesSports(utilisateur.getPseudo());
             request.setAttribute("lesSports", lesSports);
-
+            
+            Mois mois = (Mois) session.getAttribute("mois");
+            request.setAttribute("lesSeances", mois.getClasseJour(numDay).getLesSeances());
+             
             ArrayList<String> lesLieus = seancesDAO.lesLieus(utilisateur);
             request.setAttribute("lesLieus", lesLieus);
+            
+            ArrayList<Parcour> lesParcours = parcoursDAO.lesParcours(utilisateur.getPseudo());
+            request.setAttribute("lesParcours", lesParcours);
+            
+            request.setAttribute("date", date);
+            getServletContext().getRequestDispatcher("/WEB-INF/viewModalSeances.jsp").forward(request, response);
         } catch (SQLException ex) {
             request.setAttribute("erreurMessage", ex.getMessage());
             request.getRequestDispatcher("WEB-INF/pageErreur/erreurGen.jsp").forward(request, response);
         }
-        ArrayList<Seance> lesSeances = new ArrayList();
-        request.setAttribute("lesSeances", lesSeances);
-        request.setAttribute("date", date);
-        getServletContext().getRequestDispatcher("/WEB-INF/viewModalSeances.jsp").forward(request, response);
+        
 
     }
 

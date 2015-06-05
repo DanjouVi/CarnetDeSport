@@ -85,13 +85,34 @@ public class Seance {
         try{
            int hour =  Integer.parseInt(duree.split(":")[0]);
            int min =  Integer.parseInt(duree.split(":")[1]);
-           dureeSec = hour*3600+min*60;
+           int sec =  Integer.parseInt(duree.split(":")[2]);
+           dureeSec = hour*3600+min*60+sec;
         }catch(Exception ex){
             throw new convertionDureeException(duree);
         }
         return dureeSec;
     }
-
+    public String getDuree(){
+       int hour = this.duree/3600 ;
+       int min = this.duree%3600/60;
+       int sec = this.duree%3600%60;
+       return hour+":"+min+":"+sec;
+    }
+    public String getDureeAff(){
+       int hour = this.duree/3600 ;
+       int min = this.duree%3600/60;
+       int sec = this.duree%3600%60;
+       String res =hour+" hour "+min+" min "+sec+" sec";
+       if(hour==0&&min==0&&sec==0){
+           res="non renseignée";
+       }else if(hour==0){
+            res=min+" min "+sec+" sec";
+            if(min==0)
+               res=sec+" sec"; 
+       }
+           
+       return res;
+    }
     public int getDureeSec() {
         return duree;
     }

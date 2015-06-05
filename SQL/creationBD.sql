@@ -2,7 +2,7 @@ drop table lesSeances;
 drop view viewLesSports;
 drop table lesSports;
 drop table lesUtilisateurs;
-
+drop table lesParcours;
 
 
 
@@ -51,4 +51,16 @@ SELECT nom,typeSport,lSp.utilisateur,photo,count(idSeance) as nbSeance
 FROM lesSports lSp
 LEFT OUTER JOIN lesSeances lSe ON (lSp.utilisateur=lSe.utilisateur AND nom=sport)
 GROUP BY nom,lSp.utilisateur;
+
+create table lesParcours(
+idParcours int NOT NULL,
+nomParcours varchar(50) NOT NULL,
+distance int NOT NULL,
+denivele float,
+utilisateur varchar(30),
+description varchar(150),
+traceGPX varchar(30),
+Constraint LPa_PK PRIMARY KEY (idParcours),
+Constraint LPa_FK Foreign Key (utilisateur) references lesUtilisateurs (pseudo)
+);
 
