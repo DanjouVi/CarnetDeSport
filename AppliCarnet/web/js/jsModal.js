@@ -39,13 +39,14 @@ function chgSport(dataSport) {
     } else {
         $("#imgSport").hide();
     }
-
-    if (typeSport == "default") {
-        $("#typeDistance").hide();
-    } else if (typeSport == "distance") {
+    
+    $("#typeDistance").hide();
+    $("#typeMatch").hide();
+   if (typeSport == "distance") {
         $("#typeDistance").show();
-    } else {
-
+    }else if (typeSport == "match") {
+        $("#typeMatch").show();
+        $("#typeMatch").load("matchCtrl?action=init");
     }
 }
 ;
@@ -84,16 +85,63 @@ function chgNbTours(nbTours) {
 }
 
 function valSeance(date) {
+    var erreur = false;
     var meteo = $("#selectMeteo").val();
     var comment = $("#comment").val();
     var lieu = $("#inputLieu").val();
     var sport = $("#selectSport").val().split("_-_")[0];
+    var typeSport = $("#selectSport").val().split("_-_")[2];
     var duree = $("#dureeSeance").val();
     var nomSeance = $("#inputNomSeance").val();
+    
     if (nomSeance == "") {
         $("#labelNomSeance").css("color", "red");
+        erreur =true;
     } else {
         $("#labelNomSeance").css("color", "black");
-        document.location.href = "SaveSeance?meteo=" + meteo + "&comment=" + comment + "&lieu=" + lieu + "&sport=" + sport + "&duree=" + duree + "&nomSeance=" + nomSeance + "&date=" + date;
     }
+    
+    if(typeSport=="match"){
+        erreur = true;
+        $.ajax({
+            type: 'post', // it's easier to read GET request parameters
+            url: 'matchCtrl',
+            dataType: 'JSON',
+            data: {
+                action: "verifMatch"
+            },
+            success: function (data) {
+                console.log(data);
+            }
+        });
+    }
+    
+    
+    if(!erreur)
+        document.location.href = "SaveSeance?meteo=" + meteo + "&comment=" + comment + "&lieu=" + lieu + "&sport=" + sport + "&duree=" + duree + "&nomSeance=" + nomSeance + "&date=" + date;
+    
+}
+
+function addMatch(){
+     $("#typeMatch").load("matchCtrl?action=addMatch");
+}
+
+function delMatch(numMatch){
+     $("#typeMatch").load("matchCtrl?action=delMatch&num="+numMatch);
+}
+
+function addPersonne(numMatch,typePersonne){
+     $("#typeMatch").load("matchCtrl?action=addPersonne&num="+numMatch+"&type="+typePersonne);
+}
+
+function delPersonne(numMatch,numPersonne,typePersonne){
+     $("#typeMatch").load("matchCtrl?action=delPersonne&num="+numMatch+"&type="+typePersonne+"&numPers="+numPersonne);
+}
+
+function changePersonne(numMatch,numPersonne,typePersonne,value){
+    $("#typeMatch").load("matchCtrl?action=changePersonne&num="+numMatch+"&type="+typePersonne+"&numPers="+numPersonne+"&value="+value);
+}
+
+function changeScore(numMatch,typePersonne,value){
+    $("#typeMatch").load("matchCtrl?action=changeScore&num="+numMatch+"&type="+typePersonne+"&value="+value);
 }

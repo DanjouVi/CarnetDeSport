@@ -13,7 +13,7 @@
 <%@page import="java.util.Calendar"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <script src="js/jsModal.js" type="text/javascript"></script>
-
+<link href="css/modal.css" rel="stylesheet" type="text/css"/>
 <%
     Calendar date = (Calendar) request.getAttribute("date");
     ArrayList<Seance> lesSeances = (ArrayList<Seance>) request.getAttribute("lesSeances");
@@ -157,10 +157,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div id="typeMatch" class="row">
-                            <div class="jumbotron col-lg-14 col-lg-offset-1">
-                                <h4 class="text-center">Hello, world!</h4>
-                            </div>
+                        <div id="typeMatch" class="row" style="display: none">
                         </div>
                         <div class="form-group col-lg-14 col-lg-offset-1">
                             <label>Comment:</label>
