@@ -8,6 +8,7 @@ package controlers.Seances;
 import DAO.ParcoursDAO;
 import DAO.SeancesDAO;
 import DAO.SportsDAO;
+import Exception.convertionDureeException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 import model.Mois;
 import model.Parcour;
+import model.Seance;
 import model.Sport;
 import model.Utilisateur;
 
@@ -46,7 +48,9 @@ public class SeancesCtrler extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        
+       boolean modifSeance = request.getParameter("modifSeance").equals("true");
+        
         HttpSession session = request.getSession();
         Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
         SportsDAO sportsDAO = new SportsDAO(dataSource);
@@ -56,27 +60,37 @@ public class SeancesCtrler extends HttpServlet {
         int numDay = Integer.parseInt(request.getParameter("numDay"));
         int numMois = Integer.parseInt(request.getParameter("numMois"));
         int annee = Integer.parseInt(request.getParameter("annee"));
-
+        int idSeance =0;
+        
         GregorianCalendar date = new GregorianCalendar();
         date.set(annee, numMois - 1, numDay);
         
 
         try {
+            if(!modifSeance){
+                Mois mois = (Mois) session.getAttribute("mois");
+                request.setAttribute("lesSeances", mois.getClasseJour(numDay).getLesSeances());
+
+           }else{
+                idSeance = Integer.parseInt(request.getParameter("idSeance")); 
+                Seance seanceModif = seancesDAO.getSeance(idSeance);
+                request.setAttribute("seanceModif", seanceModif);
+            }
+            
             ArrayList<Sport> lesSports = sportsDAO.lesSports(utilisateur.getPseudo());
             request.setAttribute("lesSports", lesSports);
             
-            Mois mois = (Mois) session.getAttribute("mois");
-            request.setAttribute("lesSeances", mois.getClasseJour(numDay).getLesSeances());
-             
-            ArrayList<String> lesLieus = seancesDAO.lesLieus(utilisateur);
-            request.setAttribute("lesLieus", lesLieus);
-            
+             ArrayList<String> lesLieus = seancesDAO.lesLieus(utilisateur);
+             request.setAttribute("lesLieus", lesLieus);
+
             ArrayList<Parcour> lesParcours = parcoursDAO.lesParcours(utilisateur.getPseudo());
             request.setAttribute("lesParcours", lesParcours);
             
             request.setAttribute("date", date);
+            request.setAttribute("modifSeance",request.getParameter("modifSeance"));
             getServletContext().getRequestDispatcher("/WEB-INF/viewModalSeances.jsp").forward(request, response);
-        } catch (SQLException ex) {
+            
+        } catch (Exception ex) {
             request.setAttribute("erreurMessage", ex.getMessage());
             request.getRequestDispatcher("WEB-INF/pageErreur/erreurGen.jsp").forward(request, response);
         }

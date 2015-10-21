@@ -5,34 +5,29 @@
  */
 package controlers.Seances;
 
-import DAO.ParcoursDAO;
 import DAO.SeancesDAO;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.io.PrintWriter;
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
-import model.Match;
-import model.Parcour;
 import model.Seance;
-import model.SeanceDistance;
-import model.SeanceMatch;
-import model.Utilisateur;
 
 /**
  *
  * @author vivi
  */
-@WebServlet(name = "SaveSeance", urlPatterns = {"/SaveSeance"})
-public class SaveSeance extends HttpServlet {
+@WebServlet(name = "ModifSeance", urlPatterns = {"/ModifSeance"})
+public class ModifSeance extends HttpServlet {
+
     
-    @Resource(name = "jdbc/BDCarnetDeSport")
+     @Resource(name = "jdbc/BDCarnetDeSport")
     private DataSource dataSource;
+     
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -45,38 +40,21 @@ public class SaveSeance extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        HttpSession session = request.getSession();
-        Utilisateur utilisateur =(Utilisateur) session.getAttribute("utilisateur");
-                
+        String action = request.getParameter("action");
+        int idSeance = Integer.parseInt(request.getParameter("idSeance"));
+        
         SeancesDAO seancesDAO = new SeancesDAO(dataSource);
         try{
-             Seance newSeance =null;
-            if("match".equals(request.getParameter("type"))){
-                SeanceMatch newSeanceMatch = new SeanceMatch(request.getParameter("date"),request.getParameter("lieu"),request.getParameter("comment"),request.getParameter("meteo"),request.getParameter("nomSeance"),request.getParameter("duree"));
-                newSeanceMatch.setLesMatchs((ArrayList<Match>) session.getAttribute("lesMatchs"));
-                newSeance = newSeanceMatch;
-            }else if("distance".equals(request.getParameter("type"))){
-                 if (request.getParameterMap().containsKey("distance"))
-                    newSeance = new SeanceDistance(0, request.getParameter("date"), request.getParameter("lieu"),request.getParameter("comment"), request.getParameter("meteo"), request.getParameter("nomSeance"),request.getParameter("duree"), Double.parseDouble(request.getParameter("distance")), Integer.parseInt(request.getParameter("denivele")));
-                
-                 if (request.getParameterMap().containsKey("idParcours")){
-                    ParcoursDAO parcoursDAO = new ParcoursDAO(dataSource);
-                    Parcour parcour =  parcoursDAO.getParcoursById(Integer.parseInt(request.getParameter("idParcours")));
-                    newSeance = new SeanceDistance(0, request.getParameter("date"), request.getParameter("lieu"),request.getParameter("comment"), request.getParameter("meteo"), request.getParameter("nomSeance"),request.getParameter("duree"), parcour, Integer.parseInt(request.getParameter("nbTours")));
-                 }
-            }else{
-                newSeance = new Seance(request.getParameter("date"),request.getParameter("lieu"),request.getParameter("comment"),request.getParameter("meteo"),request.getParameter("nomSeance"),request.getParameter("duree"));
+            Seance seance = seancesDAO.getSeance(idSeance);
+            if(action.equals("del")){
+                seancesDAO.delSeance(seance);
+                request.getRequestDispatcher("htmlCalendar").forward(request, response);
             }
             
-            
-            String sport = (String) request.getParameter("sport");
-            seancesDAO.saveSeance(newSeance, utilisateur, sport);
-            request.getRequestDispatcher("htmlCalendar").forward(request, response);
         }catch(Exception ex){
             request.setAttribute("erreurMessage", ex.getMessage());
             request.getRequestDispatcher("WEB-INF/pageErreur/erreurGen.jsp").forward(request, response);
         }
-        
         
     }
 

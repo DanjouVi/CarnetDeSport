@@ -6,6 +6,7 @@
 package model;
 
 
+import Exception.convertionDureeException;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -18,7 +19,7 @@ import javax.sql.DataSource;
 class Semaine {
     private Jour [] jours = new Jour [7];
     
-    public Semaine (GregorianCalendar jour, int numMois,Utilisateur utilisateur,DataSource dataSource) throws SQLException{
+    public Semaine (GregorianCalendar jour, int numMois,Utilisateur utilisateur,DataSource dataSource) throws SQLException, convertionDureeException{
         for (int i = 0; i < 7; i++) {
             jours[i] = new Jour(jour,numMois,utilisateur,dataSource); 
             jour.add(Calendar.DATE, 1);

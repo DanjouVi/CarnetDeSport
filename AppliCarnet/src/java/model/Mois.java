@@ -5,6 +5,7 @@
  */
 package model;
 
+import Exception.convertionDureeException;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -78,7 +79,7 @@ public class Mois {
         return false;
     }
 
-    public Mois(GregorianCalendar jour, Utilisateur utilisateur,DataSource dataSource) throws SQLException {
+    public Mois(GregorianCalendar jour, Utilisateur utilisateur,DataSource dataSource) throws SQLException, convertionDureeException {
         numMois = jour.get(Calendar.MONTH) + 1;
         annee = jour.get(Calendar.YEAR);
         jour = getFirstWeekDay();

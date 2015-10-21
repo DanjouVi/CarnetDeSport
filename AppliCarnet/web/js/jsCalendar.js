@@ -24,7 +24,7 @@ function initCalendar(){
 }
 function dayClick(numDay,numMois,annee){
     
-    $("div[class='modal-content']").load("SeancesCtrler?numDay="+numDay+"&numMois="+numMois+"&annee="+annee);
+    $("div[class='modal-content']").load("SeancesCtrler?numDay="+numDay+"&numMois="+numMois+"&annee="+annee+"&modifSeance=false");
     
 }
 

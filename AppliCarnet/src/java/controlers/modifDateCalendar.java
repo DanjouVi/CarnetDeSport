@@ -54,7 +54,7 @@ public class modifDateCalendar extends HttpServlet {
             calendar.setTime(new Date());
             request.setAttribute("today",calendar);
             getServletContext().getRequestDispatcher("/WEB-INF/calendar.jsp").forward(request, response);
-        } catch (SQLException ex) {
+        } catch (Exception ex) {
             request.setAttribute("erreurMessage", ex.getMessage());
             request.getRequestDispatcher("WEB-INF/pageErreur/erreurGen.jsp").forward(request, response);
         }

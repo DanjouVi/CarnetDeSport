@@ -1,8 +1,12 @@
+drop table lesSeancesDistances;
+drop table lesJoueurs;
+drop table lesMatchs;
 drop table lesSeances;
 drop view viewLesSports;
 drop table lesSports;
 drop table lesUtilisateurs;
 drop table lesParcours;
+
 
 
 
@@ -63,4 +67,33 @@ traceGPX varchar(30),
 Constraint LPa_PK PRIMARY KEY (idParcours),
 Constraint LPa_FK Foreign Key (utilisateur) references lesUtilisateurs (pseudo)
 );
+
+
+create table lesMatchs(
+idMatch int NOT NULL,
+idSeance int NOT NULL,
+scoreJoueur double,
+scoreAdv double,
+Constraint LMa_PK PRIMARY KEY (idMatch),
+Constraint LMa_FK Foreign Key (idSeance) references lesSeances(idSeance)
+);
+
+create table lesJoueurs(
+nomJoueur varchar(20) NOT NULL,
+idMatch int NOT NULL,
+estAdv int NOT NULL,
+Constraint LJo_PK PRIMARY KEY (nomJoueur,idMatch),
+COnstraint LJo_FK Foreign Key (idMatch) references lesMatchs(idMatch)
+);
+
+create table lesSeancesDistances(
+idSeance int NOT NULL,
+idParcours int,
+distance int NOT NULL,
+denivele float,
+Constraint LSeDi_PK PRIMARY KEY (idSeance),
+COnstraint LSeDi_FK1 Foreign Key (idSeance) references lesSeances(idSeance),
+COnstraint LSeDi_FK2 Foreign Key (idParcours) references lesParcours(idParcours)
+);
+
 

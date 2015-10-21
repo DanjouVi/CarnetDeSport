@@ -39,12 +39,12 @@ function chgSport(dataSport) {
     } else {
         $("#imgSport").hide();
     }
-    
+
     $("#typeDistance").hide();
     $("#typeMatch").hide();
-   if (typeSport == "distance") {
+    if (typeSport == "distance") {
         $("#typeDistance").show();
-    }else if (typeSport == "match") {
+    } else if (typeSport == "match") {
         $("#typeMatch").show();
         $("#typeMatch").load("matchCtrl?action=init");
     }
@@ -66,6 +66,7 @@ function chgParcours(dataParcours) {
         $("#denivele").val(denivele);
         $("#denivele").prop('disabled', true);
     } else {
+        $("#nbTours").val(1);
         $("#nbTours").prop('disabled', true);
         $("#distance").prop('disabled', false);
         $("#denivele").prop('disabled', false);
@@ -87,22 +88,21 @@ function chgNbTours(nbTours) {
 function valSeance(date) {
     var erreur = false;
     var meteo = $("#selectMeteo").val();
-    var comment = $("#comment").val();
+    var comment =$("#comment").val().split("\n").join('<br/>');
     var lieu = $("#inputLieu").val();
     var sport = $("#selectSport").val().split("_-_")[0];
     var typeSport = $("#selectSport").val().split("_-_")[2];
     var duree = $("#dureeSeance").val();
     var nomSeance = $("#inputNomSeance").val();
-    
+
     if (nomSeance == "") {
-        $("#labelNomSeance").css("color", "red");
-        erreur =true;
-    } else {
-        $("#labelNomSeance").css("color", "black");
-    }
-    
-    if(typeSport=="match"){
+        $("#inputNomSeance").css("border-color", "red");
         erreur = true;
+    } else {
+        $("#inputNomSeance").css("border-color", "black");
+    }
+
+    if (typeSport == "match") {
         $.ajax({
             type: 'post', // it's easier to read GET request parameters
             url: 'matchCtrl',
@@ -111,37 +111,59 @@ function valSeance(date) {
                 action: "verifMatch"
             },
             success: function (data) {
-                console.log(data);
+                if (data.length > 0) {
+                    erreur = true;
+                    for (var i = 0; i < data.length; i++)
+                        $("#" + data[i]).css("border-color", "red");
+                }
             }
         });
     }
-    
-    
-    if(!erreur)
-        document.location.href = "SaveSeance?meteo=" + meteo + "&comment=" + comment + "&lieu=" + lieu + "&sport=" + sport + "&duree=" + duree + "&nomSeance=" + nomSeance + "&date=" + date;
-    
+
+    var url = "SaveSeance?meteo=" + meteo + "&comment=" + comment + "&lieu=" + lieu + "&sport=" + sport + "&duree=" + duree + "&nomSeance=" + nomSeance + "&date=" + date +"&type="+typeSport;
+    if(typeSport =="distance"){
+        var idParcours = $("#selectParcours").val().split("_-_")[0];
+        if(idParcours!==""){
+           var nbTours = $("#nbTours").val();
+           url += "&nbTours="+nbTours+"&idParcours="+idParcours;
+        }else{
+           url +="&distance="+$("#distance").val()+"&denivele="+$("#denivele").val();
+        }
+    }
+
+    if (!erreur)
+      document.location.href = url;
+
 }
 
-function addMatch(){
-     $("#typeMatch").load("matchCtrl?action=addMatch");
+function delSeance (idSeance){
+    var url ="ModifSeance?action=del&idSeance="+idSeance;
+    document.location.href = url;
 }
 
-function delMatch(numMatch){
-     $("#typeMatch").load("matchCtrl?action=delMatch&num="+numMatch);
+function modifSeance(idSeance,numDay,numMois,annee){
+     $("div[class='modal-content']").load("SeancesCtrler?numDay="+numDay+"&numMois="+numMois+"&annee="+annee+"&modifSeance=true&idSeance="+idSeance);
+}
+function addMatch() {
+    $("#typeMatch").load("matchCtrl?action=addMatch");
 }
 
-function addPersonne(numMatch,typePersonne){
-     $("#typeMatch").load("matchCtrl?action=addPersonne&num="+numMatch+"&type="+typePersonne);
+function delMatch(numMatch) {
+    $("#typeMatch").load("matchCtrl?action=delMatch&num=" + numMatch);
 }
 
-function delPersonne(numMatch,numPersonne,typePersonne){
-     $("#typeMatch").load("matchCtrl?action=delPersonne&num="+numMatch+"&type="+typePersonne+"&numPers="+numPersonne);
+function addPersonne(numMatch, typePersonne) {
+    $("#typeMatch").load("matchCtrl?action=addPersonne&num=" + numMatch + "&type=" + typePersonne);
 }
 
-function changePersonne(numMatch,numPersonne,typePersonne,value){
-    $("#typeMatch").load("matchCtrl?action=changePersonne&num="+numMatch+"&type="+typePersonne+"&numPers="+numPersonne+"&value="+value);
+function delPersonne(numMatch, numPersonne, typePersonne) {
+    $("#typeMatch").load("matchCtrl?action=delPersonne&num=" + numMatch + "&type=" + typePersonne + "&numPers=" + numPersonne);
 }
 
-function changeScore(numMatch,typePersonne,value){
-    $("#typeMatch").load("matchCtrl?action=changeScore&num="+numMatch+"&type="+typePersonne+"&value="+value);
+function changePersonne(numMatch, numPersonne, typePersonne, value) {
+    $("#typeMatch").load("matchCtrl?action=changePersonne&num=" + numMatch + "&type=" + typePersonne + "&numPers=" + numPersonne + "&value=" + value);
+}
+
+function changeScore(numMatch, typePersonne, value) {
+    $("#typeMatch").load("matchCtrl?action=changeScore&num=" + numMatch + "&type=" + typePersonne + "&value=" + value);
 }

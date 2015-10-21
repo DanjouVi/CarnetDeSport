@@ -16,6 +16,8 @@ public class Match {
    private  ArrayList<String> lesAdversaires;
    private double scoreJoueurs;
    private double scoreAdversaire;
+   private int idMatch;
+
 
     public Match(double scoreJoueurs, double scoreAdversaire) {
         lesJoueurs = new ArrayList();
@@ -24,8 +26,25 @@ public class Match {
         lesAdversaires.add("");
         this.scoreJoueurs = scoreJoueurs;
         this.scoreAdversaire = scoreAdversaire;
+        idMatch=0;
+    }
+    
+    public Match( int idMatch, double scoreJoueurs, double scoreAdversaire , ArrayList<String> lesJoueurs,ArrayList<String> lesAdversaires) {
+        this.lesJoueurs = lesJoueurs;
+        this.lesAdversaires= lesAdversaires;
+        this.scoreJoueurs = scoreJoueurs;
+        this.scoreAdversaire = scoreAdversaire;
+        this.idMatch= idMatch;
     }
 
+    public int getIdMatch() {
+        return idMatch;
+    }
+
+    public void setIdMatch(int idMatch) {
+        this.idMatch = idMatch;
+    }
+    
     public ArrayList<String> getLesJoueurs() {
         return lesJoueurs;
     }
@@ -59,6 +78,14 @@ public class Match {
         }
     }
    
+    public String gagnant(){
+        String gagnant ="null";
+        if(scoreJoueurs>scoreAdversaire)
+            gagnant = "joueurs";
+        else if(scoreAdversaire>scoreJoueurs)
+            gagnant ="adversaires";
+        return gagnant;        
+    }
 
     
     

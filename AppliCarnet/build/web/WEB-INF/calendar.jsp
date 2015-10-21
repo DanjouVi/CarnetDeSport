@@ -4,6 +4,7 @@
     Author     : vivi
 --%>
 
+<%@page import="model.LoadImage"%>
 <%@page import="java.util.Calendar"%>
 <%@page import="java.util.Date"%>
 <%@page import="model.Mois"%>
@@ -108,12 +109,12 @@
                 %>
                 <div class="row">
                     <div class="col-sm-2 col-sm-offset-1">
-                        <button type="button" class="<%=classToday%> btn  btn-test btn-block btn-calendar btn-<%=estDansMois%>"  <% if (estDansMois) {%> data-toggle="modal" data-target=".bs-example-modal-lg" onclick="dayClick(<%=jour%>,<%=month%>,<%=year%>)"<%}%>  >
+                        <button type="button" class="<%=classToday%> btn  btn-test btn-block btn-calendar btn-<%=estDansMois%> btnSeance-<%=classJour.getLesSeances().size()>0%>"  <% if (estDansMois) {%> data-toggle="modal" data-target=".bs-example-modal-lg" onclick="dayClick(<%=jour%>,<%=month%>,<%=year%>)"<%}%>  >
                             <div class="row" id="dayButton">
                                 <%=jour%><br/>
                             </div>
                             <div class="row">
-                                <div class="col-sm-14 col-sm-offset-1"><% if (classJour.getLesSeances().size()>0){%><img  height="70" src="images/<%=classJour.getLesSeances().get(0).getSport().getUrlImage()%>"></img><%}%>
+                                <div class="col-sm-14 col-sm-offset-1"><% if (classJour.getLesSeances().size()>0){%><img  height="70" src="<%=LoadImage.getUrl("images/"+classJour.getLesSeances().get(0).getSport().getUrlImage())%>"></img><%}%>
                                 </div>
                             </div> 
                         </button>
@@ -130,12 +131,12 @@
                             }
                     %>
                     <div class="col-sm-2">
-                        <button type="button" class="<%=classToday%> btn  btn-test btn-block btn-calendar btn-<%=estDansMois%>"  <% if (estDansMois) {%> data-toggle="modal" data-target=".bs-example-modal-lg" onclick="dayClick(<%=jour%>,<%=month%>,<%=year%>)" <%}%>  >
+                        <button type="button" class="<%=classToday%> btn  btn-test btn-block btn-calendar btn-<%=estDansMois%> btnSeance-<%=classJour.getLesSeances().size()>0%>"  <% if (estDansMois) {%> data-toggle="modal" data-target=".bs-example-modal-lg" onclick="dayClick(<%=jour%>,<%=month%>,<%=year%>)" <%}%>  >
                             <div class="row" id="dayButton">
                                 <%=jour%><br/>
                             </div>
                             <div class="row">
-                                <div class="col-sm-14 col-sm-offset-1"><% if (classJour.getLesSeances().size()>0){%><img  height="70" src="images/<%=classJour.getLesSeances().get(0).getSport().getUrlImage()%>"></img><%}%>
+                                <div class="col-sm-14 col-sm-offset-1"><% if (classJour.getLesSeances().size()>0){%><img  height="70" src="<%=LoadImage.getUrl("images/"+classJour.getLesSeances().get(0).getSport().getUrlImage())%>"></img><%}%>
                                 </div>
                             </div> 
                         </button>

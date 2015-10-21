@@ -6,6 +6,7 @@
 package model;
 
 import DAO.SeancesDAO;
+import Exception.convertionDureeException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -28,7 +29,7 @@ public class Jour {
         return numJour;
     }
 
-    public Jour(GregorianCalendar jour,int numMois,Utilisateur utilisateur,DataSource dataSource) throws SQLException {
+    public Jour(GregorianCalendar jour,int numMois,Utilisateur utilisateur,DataSource dataSource) throws SQLException, convertionDureeException {
         numJour = jour.get(Calendar.DATE);
         estDansMois = (jour.get(Calendar.MONTH)+1==numMois);
         seancesDAO = new SeancesDAO(dataSource);

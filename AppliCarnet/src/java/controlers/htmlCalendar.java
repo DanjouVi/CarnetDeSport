@@ -5,6 +5,7 @@
  */
 package controlers;
 
+import Exception.convertionDureeException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Date;
@@ -52,7 +53,7 @@ public class htmlCalendar extends HttpServlet {
             session.setAttribute("mois", moisCourant);
             request.setAttribute("today",calendar);
             getServletContext().getRequestDispatcher("/WEB-INF/calendar.jsp").forward(request, response);
-        } catch (SQLException ex) {
+        } catch (Exception ex) {
             request.setAttribute("erreurMessage", ex.getMessage());
             request.getRequestDispatcher("WEB-INF/pageErreur/erreurGen.jsp").forward(request, response);
         }

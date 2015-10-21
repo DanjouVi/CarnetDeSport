@@ -20,7 +20,7 @@
                     String joueur = lesMatchs.get(i).getLesJoueurs().get(j);
             %>
             <div class="col-lg-14">
-                <input class="form-control"  onchange="changePersonne(<%=i%>,<%=j%>,'Joeur',this.value)" value ="<%=joueur%>" list="listJoueur"  >
+                <input class="form-control"  id="Joueur_<%=i%>_<%=j%>" onchange="changePersonne(<%=i%>,<%=j%>,'Joeur',this.value)" value ="<%=joueur%>" list="listJoueur"  >
                 </input>
             </div>
             <div class="col-lg-2">
@@ -42,7 +42,7 @@
                     String adv = lesMatchs.get(i).getLesAdversaires().get(j);
             %>
             <div class="col-lg-14">
-                <input class="form-control" list="listJoueur" value="<%=adv%>"  onchange="changePersonne(<%=i%>,<%=j%>,'Adv',this.value)">
+                <input class="form-control" id="Adv_<%=i%>_<%=j%>" list="listJoueur" value="<%=adv%>"  onchange="changePersonne(<%=i%>,<%=j%>,'Adv',this.value)">
                 </input>
             </div>
             <div class="col-lg-2">

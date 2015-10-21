@@ -35,94 +35,100 @@ public class matchCtrl extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       HttpSession session = request.getSession();
+        HttpSession session = request.getSession();
         //Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
-       String action = request.getParameter("action");
-       ArrayList<Match> lesMatchs=new ArrayList();
-       
-       if ("init".equals(action))
-           lesMatchs.add(new Match(0, 0));
-       
-       if ("addMatch".equals(action)){
-           lesMatchs = (ArrayList<Match>) session.getAttribute("lesMatchs");
-           lesMatchs.add(new Match(0, 0));
-       }
-       
-       if ("delMatch".equals(action)){
-           int num = Integer.parseInt(request.getParameter("num"));
-           lesMatchs = (ArrayList<Match>) session.getAttribute("lesMatchs");
-           lesMatchs.remove(num);
-       }
-       
-       if ("addPersonne".equals(action)){
-           int num = Integer.parseInt(request.getParameter("num"));
-           String type = request.getParameter("type");
-           lesMatchs = (ArrayList<Match>) session.getAttribute("lesMatchs");
-           if("Adv".equals(type)){
-               lesMatchs.get(num).getLesAdversaires().add("");
-           }else{
-               lesMatchs.get(num).getLesJoueurs().add("");
-           }
-       }
-       
-       if ("delPersonne".equals(action)){
-           int num = Integer.parseInt(request.getParameter("num"));
-           int numPers = Integer.parseInt(request.getParameter("numPers"));
-           String type = request.getParameter("type");
-           lesMatchs = (ArrayList<Match>) session.getAttribute("lesMatchs");
-           if("Adv".equals(type)){
-               lesMatchs.get(num).getLesAdversaires().remove(numPers);
-           }else{
-               lesMatchs.get(num).getLesJoueurs().remove(numPers);
-           }
-       }
-       
-       if ("changePersonne".equals(action)){
-           int num = Integer.parseInt(request.getParameter("num"));
-           int numPers = Integer.parseInt(request.getParameter("numPers"));
-           String type = request.getParameter("type");
-           String value = request.getParameter("value");
-           lesMatchs = (ArrayList<Match>) session.getAttribute("lesMatchs");
-           if("Adv".equals(type)){
-               lesMatchs.get(num).getLesAdversaires().set(numPers, value);
-           }else{
-               lesMatchs.get(num).getLesJoueurs().set(numPers, value);
-           }
-       }
-       
-        if ("changeScore".equals(action)){
-           int num = Integer.parseInt(request.getParameter("num"));
-           String type = request.getParameter("type");
-           String value = request.getParameter("value");
-           lesMatchs = (ArrayList<Match>) session.getAttribute("lesMatchs");
-           if("Adv".equals(type)){
-               lesMatchs.get(num).setScoreAdversaire(value);
-           }else{
-               lesMatchs.get(num).setScoreJoueurs(value);
-           }
-       }
-        
-        if ("verifMatch".equals(action)){
-           lesMatchs = (ArrayList<Match>) session.getAttribute("lesMatchs");
-           response.setContentType("application/json");
-           
+        String action = request.getParameter("action");
+        ArrayList<Match> lesMatchs = new ArrayList();
+
+        if ("init".equals(action)) {
+            lesMatchs.add(new Match(0, 0));
+        }
+
+        if ("addMatch".equals(action)) {
+            lesMatchs = (ArrayList<Match>) session.getAttribute("lesMatchs");
+            lesMatchs.add(new Match(0, 0));
+        }
+
+        if ("delMatch".equals(action)) {
+            int num = Integer.parseInt(request.getParameter("num"));
+            lesMatchs = (ArrayList<Match>) session.getAttribute("lesMatchs");
+            lesMatchs.remove(num);
+        }
+
+        if ("addPersonne".equals(action)) {
+            int num = Integer.parseInt(request.getParameter("num"));
+            String type = request.getParameter("type");
+            lesMatchs = (ArrayList<Match>) session.getAttribute("lesMatchs");
+            if ("Adv".equals(type)) {
+                lesMatchs.get(num).getLesAdversaires().add("");
+            } else {
+                lesMatchs.get(num).getLesJoueurs().add("");
+            }
+        }
+
+        if ("delPersonne".equals(action)) {
+            int num = Integer.parseInt(request.getParameter("num"));
+            int numPers = Integer.parseInt(request.getParameter("numPers"));
+            String type = request.getParameter("type");
+            lesMatchs = (ArrayList<Match>) session.getAttribute("lesMatchs");
+            if ("Adv".equals(type)) {
+                lesMatchs.get(num).getLesAdversaires().remove(numPers);
+            } else {
+                lesMatchs.get(num).getLesJoueurs().remove(numPers);
+            }
+        }
+
+        if ("changePersonne".equals(action)) {
+            int num = Integer.parseInt(request.getParameter("num"));
+            int numPers = Integer.parseInt(request.getParameter("numPers"));
+            String type = request.getParameter("type");
+            String value = request.getParameter("value");
+            lesMatchs = (ArrayList<Match>) session.getAttribute("lesMatchs");
+            if ("Adv".equals(type)) {
+                lesMatchs.get(num).getLesAdversaires().set(numPers, value);
+            } else {
+                lesMatchs.get(num).getLesJoueurs().set(numPers, value);
+            }
+        }
+
+        if ("changeScore".equals(action)) {
+            int num = Integer.parseInt(request.getParameter("num"));
+            String type = request.getParameter("type");
+            String value = request.getParameter("value");
+            lesMatchs = (ArrayList<Match>) session.getAttribute("lesMatchs");
+            if ("Adv".equals(type)) {
+                lesMatchs.get(num).setScoreAdversaire(value);
+            } else {
+                lesMatchs.get(num).setScoreJoueurs(value);
+            }
+        }
+
+        if ("verifMatch".equals(action)) {
+            lesMatchs = (ArrayList<Match>) session.getAttribute("lesMatchs");
+            response.setContentType("application/json");
+            ArrayList<String> lesChampsVides = new ArrayList<>();
+
             try (PrintWriter out = response.getWriter();) {
-                for(int numMatch=0 ;numMatch<lesMatchs.size();numMatch++){
+                for (int numMatch = 0; numMatch < lesMatchs.size(); numMatch++) {
                     Match match = lesMatchs.get(numMatch);
-                    for(int numAdv =0 ; numAdv < match.getLesAdversaires().size();numAdv++){
-                        
+                    for (int numAdv = 0; numAdv < match.getLesAdversaires().size(); numAdv++) {
+                       if("".equals(match.getLesAdversaires().get(numAdv)))
+                         lesChampsVides.add("Adv"+"_"+numMatch+"_"+numAdv);
+                    }
+                    for (int numJoueur = 0; numJoueur < match.getLesJoueurs().size(); numJoueur++) {
+                       if("".equals(match.getLesJoueurs().get(numJoueur)))
+                         lesChampsVides.add("Joueur"+"_"+numMatch+"_"+numJoueur);
                     }
                 }
-                String json = new Gson().toJson(lesMatchs);
-                out.print("{\"test\" :"+json+"}");
+                String json = new Gson().toJson(lesChampsVides);
+                out.print(json);
                 out.flush();
-         }  
-            
-       }
-       
-       
-       session.setAttribute("lesMatchs", lesMatchs);   
-       getServletContext().getRequestDispatcher("/WEB-INF/viewMatch.jsp").forward(request, response);
+            }
+
+        }
+
+        session.setAttribute("lesMatchs", lesMatchs);
+        getServletContext().getRequestDispatcher("/WEB-INF/viewMatch.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -96,7 +96,17 @@ public class Seance {
        int hour = this.duree/3600 ;
        int min = this.duree%3600/60;
        int sec = this.duree%3600%60;
-       return hour+":"+min+":"+sec;
+       String strh= hour+"";
+       String strm= min+"";
+       String strs= sec+"";
+       if(hour<10)
+           strh="0"+strh;
+       if(min<10)
+           strm="0"+strm;
+       if(sec<10)
+           strs="0"+strs;
+
+       return strh+":"+strm+":"+strs;
     }
     public String getDureeAff(){
        int hour = this.duree/3600 ;

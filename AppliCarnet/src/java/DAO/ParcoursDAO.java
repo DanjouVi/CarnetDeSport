@@ -43,6 +43,23 @@ public class ParcoursDAO extends AbstractDataSourceDAO {
         }
 
     }
+    
+    public Parcour getParcoursById(int idParcours) throws SQLException {
+         Connection conn = null;
+         Parcour parcour = null;
+          try {
+            conn = dataSource.getConnection();
+            PreparedStatement prepStmt = conn.prepareStatement("select idParcours,nomParcours,distance,denivele, description,traceGPX from lesParcours where idParcours = ?");
+            prepStmt.setInt(1, idParcours);
+            ResultSet rs = prepStmt.executeQuery();
+            while (rs.next()) {
+                parcour = new Parcour(rs.getInt("idParcours"), rs.getString("nomParcours"), rs.getString("description"), rs.getDouble("distance"), rs.getInt("denivele"));
+            }
+            return parcour;
+        } finally {
+            closeConnection(conn);
+        } 
+    }
 
   
 }
